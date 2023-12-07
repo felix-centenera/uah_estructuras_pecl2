@@ -7,12 +7,86 @@ int main(){
     //Creamos una lista de tipo RegistroDeCentros.
     ListaRegistroCentros *lista= new ListaRegistroCentros();
 
-    cout << "Creado el ABB con los siguientes 10 nodos:\n" << endl;
+    cout << "Creado el ABB con los sigu ientes 10 nodos:\n" << endl;
 
     cout << "Creando las siguientes cajas nuevas:\n" << endl;
 
 
-    /*
+
+      /*
+    CentroClasificacion centro1;
+    centro1.CentroRef="mi primer centro";
+    centro1.IdCentro=10;
+    CentroClasificacion centro2;
+    centro2.CentroRef="mi segundo centro";
+    centro2.IdCentro=12;
+
+    CentroClasificacion centro3;
+    centro3.CentroRef="mi tercer centro";
+    centro3.IdCentro=13;
+
+    CentroClasificacion centro4;
+    centro4.CentroRef="mi cuarto centro";
+    centro4.IdCentro=9;
+
+    ArbolABB ArbolInt;
+
+    ArbolInt.Insertar(centro1);
+    ArbolInt.Insertar(centro2);
+    ArbolInt.Insertar(centro3);
+    ArbolInt.Insertar(centro4);
+
+      // Veamos algunos parámetros
+   cout << "N nodos: " << ArbolInt.NumeroNodos() << endl;
+   cout << "Altura de 10 " << ArbolInt.Altura(centro1) << endl;
+   cout << "Altura de  12 " << ArbolInt.Altura(centro2) << endl;
+   cout << "Altura de  13 " << ArbolInt.Altura(centro3) << endl;
+   cout << "Altura de  9 " << ArbolInt.Altura(centro4) << endl;
+   cout << "Altura de arbol " << ArbolInt.AlturaArbol() << endl;
+
+   cout << "Raiz " << ArbolInt.VerRaiz().CentroRef << endl;
+   cout << "Raiz " << ArbolInt.VerRaiz().IdCentro << endl;
+   //cout << "Raiz " << ArbolInt.VerRaiz().listaDeCajas.actual.Nodo << endl;
+   cout << endl;
+
+
+   // Mostrar el árbol en tres ordenes distintos:
+   cout << "InOrden: ";
+   ArbolInt.InOrden(Mostrar);
+   cout << endl;
+   cout << "PreOrden: ";
+   ArbolInt.PreOrden(Mostrar);
+   cout << endl;
+   cout << "PostOrden: ";
+   ArbolInt.PostOrden(Mostrar);
+   cout << endl;
+
+   if (ArbolInt.BuscarPorId(13)) {
+        cout << "esta el nodo de id 13" << endl;
+   }
+
+    if (ArbolInt.BuscarPorId(15)) {
+        cout << "esta el nodo de id 15" << endl;
+   }
+   else {
+        cout << "NO esta el nodo de id 15" << endl;
+   }
+
+
+    // Borraremos algunos elementos:
+   cout << "N nodos: " << ArbolInt.NumeroNodos() << endl;
+   ArbolInt.Borrar(centro4);
+   cout << "Borrar   4: ";
+   ArbolInt.InOrden(Mostrar);
+   cout << endl;
+   ArbolInt.Borrar(centro1);
+   cout << "Borrar   1: ";
+   ArbolInt.InOrden(Mostrar);
+    cout << endl;
+
+    cout << "Raiz " << ArbolInt.VerRaiz().IdCentro << endl;
+
+
     RegistroCentros prueba;
     prueba.CentroRef="holamundo";
     prueba.IdCentro=111;
