@@ -1,10 +1,11 @@
 # depslib dependency file v1.0
-1702050615 source:c:\users\vboxuser\documents\pecl2v1\pecl2v1\main.cpp
+1702060369 source:c:\users\vboxuser\documents\pecl2v1\pecl2v1\main.cpp
 	"pecl2.h"
 
-1702050903 c:\users\vboxuser\documents\pecl2v1\pecl2v1\pecl2.h
+1702060381 c:\users\vboxuser\documents\pecl2v1\pecl2v1\pecl2.h
 	<iostream>
+	<iomanip>
 
-1702050666 source:c:\users\vboxuser\documents\pecl2v1\pecl2v1\pecl2.cpp
+1702061411 source:c:\users\vboxuser\documents\pecl2v1\pecl2v1\pecl2.cpp
 	"pecl2.h"
 

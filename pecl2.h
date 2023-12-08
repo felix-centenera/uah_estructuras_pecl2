@@ -2,6 +2,7 @@
 #define PECL2_H_INCLUDED
 
 #include <iostream>
+#include <iomanip>
 #define N1 10 //Numero de centrales de clasificación.
 #define N2 30 // Numero de cajas aleatorias
 
@@ -21,7 +22,35 @@ struct Caja
     int FechaRecogida;
 };
 
-
+struct Estadistica
+{
+    int marruecosDestino;
+    int libiaDestino;
+    int greciaDestino;
+    int daganzoOrigen;
+    int mecoOrigen;
+    int loechesOrigen;
+    int torrejonOrigen;
+    int harina;
+    int pasta;
+    int galletas;
+    int legumbres;
+    int leche;
+    int medicinas;
+    int higiene;
+    int agua;
+    int aceite;
+    int sal;
+    int azucar;
+    int latas_cons;
+    int iluminacion;
+    int herramientas;
+    int combustible;
+    int tiendas_camp;
+    int ropa;
+    int mantas;
+    int limpieza;
+};
 
 
 // STRUCT Registro de CC:
@@ -29,7 +58,9 @@ struct RegistroCentros
 {
     int IdCentro;
     string CentroRef;
+    Estadistica estadistica;
 };
+
 
 
 
@@ -190,6 +221,8 @@ public:
     int contarElementosLista();
     bool buscarID(int v);
     bool buscarCentro(string v);
+    string buscarIDRecuperarCentroRef(int v);
+    int buscarCentroRefRecuperarID(string v);
 };
 
 
@@ -198,6 +231,43 @@ void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaC
 int generarNumeroRandom();
 string randomCentrosNoRegistrado (ListaRegistroCentros *listaCentros);
 void  estadoCentrosArbol(ArbolABB *arbolDeCentros);
+
+
+//----------PILA
+class NodoPila
+{
+private:
+    Caja valor;
+    NodoPila *siguiente;
+    friend class Pila;
+public:
+    NodoPila(Caja v, NodoPila *sig = NULL)
+    {
+        valor = v;
+        siguiente = sig;
+    }
+};
+typedef NodoPila *pNodo;
+
+class Pila
+{
+private:
+    pNodo cima;
+public:
+    Pila() : cima(NULL) {} //Constructor de la Pila
+    ~Pila();
+    void apilar(Caja v);
+    Caja desapilar();
+    Caja mostrarCima();
+    bool vacia();
+    int contarElementosPila();
+};
+
+Pila *copiarPila(Pila *pilaOriginal);
+Pila* invertirPila(Pila* pilaOriginal);
+
+void simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas );
+void printDatosPilaCajas(Pila* pilaDeCajas);
 
 
 #endif // PECL2_H_INCLUDED

@@ -8,6 +8,8 @@ int main(){
     //ListaRegistroCentros *lista= new ListaRegistroCentros();
     ListaRegistroCentros *listaCentros= new ListaRegistroCentros();
     ArbolABB *arbolDeCentros= new ArbolABB();
+    Pila *pilaDeCajas = new Pila();
+
     cout << "Creado el ABB con los siguientes 10 nodos:\n" << endl;
     simulacionCentroDeControl(N1, listaCentros, arbolDeCentros);
 
@@ -16,9 +18,16 @@ int main(){
     //estadoCentrosArbol(arbolDeCentros);
 
 
+
     cout << "Creando las siguientes cajas nuevas:\n" << endl;
+    //simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* cajas )
+    simulacionCreacionCajas(N2,arbolDeCentros,listaCentros,pilaDeCajas);
 
+    Pila *pilaDeCajasCopia = copiarPila(pilaDeCajas);
+    pilaDeCajas = invertirPila(pilaDeCajas);
+    pilaDeCajasCopia = invertirPila(pilaDeCajasCopia);
 
+    printDatosPilaCajas(pilaDeCajasCopia);
 
       /*
     CentroClasificacion centro1;

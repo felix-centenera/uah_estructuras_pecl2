@@ -157,6 +157,21 @@ bool ListaRegistroCentros::buscarID(int v)
     return false;
 }
 
+string ListaRegistroCentros::buscarIDRecuperarCentroRef(int v)
+{
+    pnodo aux;
+    aux = cabeza;
+    while(aux)
+    {
+        //cout << aux->valor.IdCentro << "-> ";
+        if (aux->valor.IdCentro == v){
+            return aux->valor.CentroRef;
+        }
+        aux = aux->siguiente;
+    }
+    //cout << endl;
+}
+
 bool ListaRegistroCentros::buscarCentro(string v)
 {
     pnodo aux;
@@ -172,6 +187,23 @@ bool ListaRegistroCentros::buscarCentro(string v)
     //cout << endl;
     return false;
 }
+
+int ListaRegistroCentros::buscarCentroRefRecuperarID(string v)
+{
+    pnodo aux;
+    aux = cabeza;
+    while(aux)
+    {
+        //cout << aux->valor.IdCentro << "-> ";
+        if (aux->valor.CentroRef == v){
+            return aux->valor.IdCentro;
+        }
+        aux = aux->siguiente;
+    }
+    //cout << endl;
+}
+
+
 
 int ListaRegistroCentros::contarElementosLista()
 {
@@ -661,6 +693,128 @@ void Mostrar(int &d)
    cout << d << ",";
 }
 
+// Funciones PILA:
+
+//Destructor de la Pila
+Pila::~Pila()
+{
+    while(cima) desapilar();
+}
+//Meter elemento en la Pila
+void Pila::apilar(Caja v)
+{
+    pNodo nuevo; //Var aux para manipular el nuevo nodo
+//Se crea un nodo nuevo
+    nuevo = new NodoPila(v, cima);
+//El comienzo de la pila es el nuevo nodo
+    cima = nuevo;
+}
+
+//Sacar elemento de la Pila
+Caja Pila::desapilar()
+{
+    pNodo nodo; //Var aux para manipular el nodo
+    Caja v; //Var aux para el retorno del valor del nodo
+    Caja vacio={"","","",""};
+
+    if(!cima) return vacio; // Si no hay nodos en la pila se devuelve 0, lo asumimos solo para este ejemplo.
+// Nodo apunta al primer elemento de la pila
+    nodo = cima;
+//Se asigna a pila toda la pila menos el primer elemento
+    cima= nodo->siguiente;
+//Se guarda el retorno del valor del nodo
+    v = nodo->valor;
+//Se borra el nodo
+    delete nodo;
+    nodo = nullptr;
+    return v;
+}
+
+//Mostrar cima Pila
+Caja Pila::mostrarCima()
+{
+    Caja vacio={"","","",""};
+    if(!cima) return vacio; // Si no hay nodos en la pila se devuelve 0, lo asumimos solo para este ejemplo.
+    return (cima->valor);
+}
+
+bool Pila::vacia(){
+    if (cima==NULL){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+int Pila::contarElementosPila(){
+    int contador =0;
+    pNodo actual = cima;
+    while (actual != NULL)
+    {
+        contador++;
+        actual = actual->siguiente;
+    }
+
+    return contador;
+}
+
+/* Opción recursiva: (Al crearlo en la memoria estática, parece optimo usar iterativa).
+int contarElementosPila(Pila pila){
+    if (pila.vacia()){
+        return 0;
+    }
+    else {
+        pila.desapilar();
+        return 1 + contarElementosPila(pila);
+    }
+}
+*/
+
+Pila *copiarPila(Pila *pilaOriginal) {
+    Pila *pilaCopia = new Pila();
+    Pila *pilaTemporal = new Pila();
+
+    while (!pilaOriginal->vacia()) {
+        Caja elemento = pilaOriginal->desapilar();
+        pilaTemporal->apilar(elemento);
+    }
+
+    while (!pilaTemporal->vacia()) {
+        Caja elemento = pilaTemporal->desapilar();
+        pilaCopia->apilar(elemento);
+        pilaOriginal->apilar(elemento);
+    }
+    delete pilaTemporal;
+
+    return pilaCopia;
+}
+
+Pila* invertirPila(Pila* pilaOriginal) {
+    Pila* pilaInvertida = new Pila();
+    Pila* pilaTemporal = new Pila();
+
+    while (!pilaOriginal->vacia()) {
+        Caja elemento = pilaOriginal->desapilar();
+        pilaTemporal->apilar(elemento);
+    }
+
+    while (!pilaTemporal->vacia()) {
+        Caja elemento = pilaTemporal->desapilar();
+        pilaInvertida->apilar(elemento);
+    }
+
+    delete pilaTemporal;
+
+    return pilaInvertida;
+}
+
+
+//-------------------------------------------------------------------
+
+
+
+
 string centrosPosibles[] = {  "Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon", "Torrejon",
 
                             "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro",
@@ -699,6 +853,55 @@ int generarNumeroRandomNoRegistrado(ListaRegistroCentros *listaCentros) {
     return numeroRandom;
 }
 
+string randomProductos (){
+
+    string productos[] = {  "harina", "pasta", "legumbres", "leche", "medicinas", "higiene", "agua",
+                            "aceite", "sal", "azucar", "galletas", "latas_cons", "iluminacion",
+                            "herramientas", "combustible", "tiendas_camp", "ropa", "mantas", "limpieza"
+                        };
+    string producto = productos[rand() % 19];
+    return producto;
+}
+
+string fechaCaducidad(string producto) {
+
+    string fechaCaducidad;
+
+    if (producto == "higiene" || producto == "iluminacion" || producto == "herramientas" ||
+        producto == "combustible" || producto == "tiendas_camp" || producto == "ropa" ||
+        producto == "mantas" || producto == "limpieza" || producto == "azúcar" || producto == "sal") {
+        fechaCaducidad = "12/2100";
+    } else if (producto == "harina" || producto == "leche" || producto == "galletas") {
+        int anyo = 2023;
+        int mes = 1 + (std::rand() % 12);
+        fechaCaducidad = std::to_string(mes) + "/" + std::to_string(anyo);
+    } else if (producto == "pasta" || producto == "legumbres" || producto == "medicinas" ||
+               producto == "aceite" || producto == "agua" || producto == "latas_cons") {
+        int anyo = 2023 + (std::rand() % 5);
+        int mes = 1 + (std::rand() % 12);
+        fechaCaducidad = std::to_string(mes) + "/" + std::to_string(anyo);
+    }
+    else {
+        fechaCaducidad = "12/2100";
+    }
+    return fechaCaducidad;
+}
+
+string generadorIDCaja(){
+    string id="";
+    string localizaciones[] = { "MAR", "GRE", "LIB"};
+    id = localizaciones[rand() % 3];
+    int idnumber = rand() % 10000;
+    id = id + to_string(idnumber);
+
+    string origenes[] = { "Daganzo", "Meco", "Loeches","Torrejon"};
+    id = id + origenes[rand() % 4][0];
+    return id;
+}
+
+int generarNumeroAleatorio() {
+    return rand() % 31 + 1; // Genera un número entre 1 y 31
+}
 
 // Función generadora de centros y asocación al arbol.
 
@@ -737,4 +940,69 @@ void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaC
     //arbolDeCentros->PreOrden(Mostrar);
 
 //}
+
+void simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas ){
+    for (int i=0; i< numSimulaciones; i++){
+        Caja nuevaCaja;
+        do{
+            nuevaCaja.CentroRef=randomCentros ();
+        } while (!arbolDeCentros->BuscarPorId(listaCentros->buscarCentroRefRecuperarID(nuevaCaja.CentroRef))); //Sacamos el ID del centro y confirmamos que existe en el arbol.
+        nuevaCaja.IdCentro=listaCentros->buscarCentroRefRecuperarID(nuevaCaja.CentroRef);
+        nuevaCaja.Contenido=randomProductos();
+        nuevaCaja.FechaConsumo=fechaCaducidad(nuevaCaja.Contenido);
+        nuevaCaja.Id=generadorIDCaja();
+        nuevaCaja.FechaRecogida=generarNumeroAleatorio();
+        //cout << nuevaCaja.CentroRef << " " << nuevaCaja.Contenido << " " << nuevaCaja.FechaConsumo << " " << nuevaCaja.FechaRecogida << " " << nuevaCaja.Id << " " << nuevaCaja.IdCentro << endl;
+        pilaDeCajas->apilar(nuevaCaja);
+    }
+    //listaCentros->buscarIDRecuperarCentroRef
+    //buscarIDRecuperarCentroRef
+    //while (!listaCentros->buscarCentro(nuevaCaja.CentroRef)); && arbolDeCentros->BuscarPorId(nuevaCaja.CentroRef)
+
+    //listaCentros->buscarID(nuevaCaja.CentroRef) && arbolDeCentros.BuscarPorId(nuevaCaja.CentroRef);
+    //listaCentros->buscarID(nuevaCaja.CentroRef);
+    //arbolDeCentros->
+
+}
+
+
+
+
+void printDatosPilaCajas(Pila* pilaDeCajas){
+
+
+cout << "----------------------------------------------------------------------" << endl;
+cout << "|" << setw(10) << "ID Caja |"
+     << setw(10) << "Centro_ref |"
+     << setw(12) << "ID centro |"
+     << setw(16) << "Contenido |"
+     << setw(14) << "Fecha cons |"
+     << setw(4) << "Dia |" << endl;
+cout << "----------------------------------------------------------------------" << endl;
+for (int i=0; i < N2; i++) {
+    if (pilaDeCajas->vacia()) {
+        cout << "|" << setw(10) << "--- |"
+                    << setw(12) << "--- |"
+                    << setw(14) << "--- |"
+                    << setw(14) << "--- |"
+                    << setw(14) << "--- |"
+                    << setw(14) << "--- |" << endl;
+    }
+    else {
+        cout << "|" << setw(10) << pilaDeCajas->mostrarCima().Id + "|"
+        << setw(10) << pilaDeCajas->mostrarCima().CentroRef
+        << setw(2) << "|"
+        << setw(10) << pilaDeCajas->mostrarCima().IdCentro
+        << setw(2) << "|"
+        << setw(14) << pilaDeCajas->mostrarCima().Contenido
+        << setw(2) << "|"
+        << setw(13) << pilaDeCajas->mostrarCima().FechaConsumo << "|"
+        << setw(4) << pilaDeCajas->mostrarCima().FechaRecogida << "|" << endl;
+    }
+    pilaDeCajas->desapilar();
+}
+cout << "----------------------------------------------------------------------" << endl;
+cout << "\n" ;
+cout << "\n" ;
+}
 
