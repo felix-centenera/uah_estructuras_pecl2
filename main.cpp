@@ -5,13 +5,16 @@ using namespace std;
 
 int main(){
     //Creamos una lista de tipo RegistroDeCentros.
-    ListaRegistroCentros *lista= new ListaRegistroCentros();
+    //ListaRegistroCentros *lista= new ListaRegistroCentros();
     ListaRegistroCentros *listaCentros= new ListaRegistroCentros();
     ArbolABB *arbolDeCentros= new ArbolABB();
+    cout << "Creado el ABB con los siguientes 10 nodos:\n" << endl;
     simulacionCentroDeControl(N1, listaCentros, arbolDeCentros);
 
 
-    cout << "Creado el ABB con los sigu ientes 10 nodos:\n" << endl;
+    listaCentros->imprimirDatosMedianteRegistoDeLista(arbolDeCentros);
+    //estadoCentrosArbol(arbolDeCentros);
+
 
     cout << "Creando las siguientes cajas nuevas:\n" << endl;
 

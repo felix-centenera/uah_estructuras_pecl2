@@ -123,6 +123,24 @@ void ListaRegistroCentros::recorrerLista()
     cout << endl;
 }
 
+void ListaRegistroCentros::imprimirDatosMedianteRegistoDeLista(ArbolABB *arbolDeCentros)
+{
+    pnodo aux;
+    aux = cabeza;
+    while(aux)
+    {
+        //cout << aux->valor.IdCentro << "-> ";
+        if (arbolDeCentros->BuscarPorId(aux->valor.IdCentro)){
+            //cout << aux->valor.IdCentro << "-> se encontro";
+            //cout << "el id es yeah: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro).CentroRef << endl;
+            cout << "ID: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro).IdCentro << "   Localidad:   " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro).CentroRef << "    Num cajas:  " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro).listaDeCajas.numeroDeElementos() << endl;
+        }
+        aux = aux->siguiente;
+    }
+    cout << endl;
+}
+
+
 bool ListaRegistroCentros::buscarID(int v)
 {
     pnodo aux;
@@ -291,6 +309,20 @@ void Lista::recorrerLista()
         aux = aux->siguiente;
     }
     cout << endl;
+}
+
+int Lista::numeroDeElementos()
+{
+    int contar=0;
+    pnodocaja aux;
+    aux = cabeza;
+    while(aux)
+    {
+        //cout << aux->valor.Id << "-> ";
+        contar=contar +1;
+        aux = aux->siguiente;
+    }
+    return contar;
 }
 
 
@@ -548,6 +580,22 @@ bool ArbolABB::BuscarPorId(const int dat)
    return false; // No está en árbol
 }
 
+
+// Buscar por id en el arbol y devolver el centro de clasificación.
+CentroClasificacion ArbolABB::BuscarPorIdRecuperarCC(const int dat)
+{
+   actual = raiz;
+   // Todavía puede aparecer, ya que quedan nodos por mirar
+   while(!Vacio(actual)) {
+      if(dat == actual->dato.IdCentro) return actual->dato; // int encontrado
+      else if(dat > actual->dato.IdCentro) actual = actual->derecho; // Seguir
+      else if(dat < actual->dato.IdCentro) actual = actual->izquierdo;
+   }
+   // No está en árbol
+}
+
+
+
 // Calcular la altura del nodo que contiene el int dat
 int ArbolABB::Altura(const CentroClasificacion dat)
 {
@@ -681,5 +729,12 @@ void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaC
             cout << " NO hay centro disponibles" << endl;
         }
     }
+    cout << "Arbol vacio creado:\n" << endl;
 }
+
+//void  estadoCentrosArbol(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros){
+    //listaCentros.recorrerLista
+    //arbolDeCentros->PreOrden(Mostrar);
+
+//}
 

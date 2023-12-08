@@ -7,7 +7,7 @@
 
 using namespace std;
 
-// ---------------------------------------------ESTRUCTUTAS---------------------------------------------
+// ---------------------------------------------ESTRUCTURAS---------------------------------------------
 // -----------------------------------------------------------------------------------------------------
 
 // STRUCT Caja:
@@ -31,47 +31,6 @@ struct RegistroCentros
     string CentroRef;
 };
 
-// ----------------------------------------------- LISTA RegistoCentros -----------------------------------------------
-
-class NodoRegistroCentro
-{
-private:
-    RegistroCentros valor;
-    NodoRegistroCentro *siguiente;
-    friend class ListaRegistroCentros;
-public:
-    NodoRegistroCentro(RegistroCentros v, NodoRegistroCentro *sig = NULL)
-    {
-        valor = v;
-        siguiente = sig;
-    }
-};
-typedef NodoRegistroCentro *pnodo;
-
-class ListaRegistroCentros
-{
-private:
-    pnodo cabeza, actual, final;
-public:
-    ListaRegistroCentros()
-    {
-        cabeza = actual = final = NULL;
-    }
-    ~ListaRegistroCentros();
-    void insertarNodo(RegistroCentros v);
-    void borrarNodo(RegistroCentros v);
-    void borrarNodoPorRegistroID(int v);
-    bool listaVacia();
-    void esCabeza();
-    void esFinal();
-    void esSiguiente();
-    bool esActual();
-    RegistroCentros valorActual();
-    void recorrerLista();
-    int contarElementosLista();
-    bool buscarID(int v);
-    bool buscarCentro(string v);
-};
 
 
 // ----------------------------------------------- LISTA Cajas -----------------------------------------------
@@ -111,6 +70,7 @@ public:
     bool esActual();
     Caja valorActual();
     void recorrerLista();
+    int numeroDeElementos();
 };
 
 // STRUCT Registro de CC:
@@ -163,6 +123,7 @@ class ArbolABB
         // Función de búsqueda:
         bool Buscar(const CentroClasificacion dat);
         bool BuscarPorId(const int dat);
+        CentroClasificacion BuscarPorIdRecuperarCC(const int dat);
         // Comprobar si el árbol está vacío:
         bool Vacio(NodoArbol *r);
         // Comprobar si es un nodo hoja:
@@ -180,6 +141,7 @@ class ArbolABB
         void PreOrden(void (*func)(int&), NodoArbol *nodo=NULL, bool r=true);
         void PostOrden(void (*func)(int&), NodoArbol *nodo=NULL, bool r=true);
 
+
     private:
         // Funciones auxiliares
         void Podar(NodoArbol* &);
@@ -187,11 +149,55 @@ class ArbolABB
         void auxAltura(NodoArbol*, int);
 };
 
+// ----------------------------------------------- LISTA RegistoCentros -----------------------------------------------
+
+class NodoRegistroCentro
+{
+private:
+    RegistroCentros valor;
+    NodoRegistroCentro *siguiente;
+    friend class ListaRegistroCentros;
+public:
+    NodoRegistroCentro(RegistroCentros v, NodoRegistroCentro *sig = NULL)
+    {
+        valor = v;
+        siguiente = sig;
+    }
+};
+typedef NodoRegistroCentro *pnodo;
+
+class ListaRegistroCentros
+{
+private:
+    pnodo cabeza, actual, final;
+public:
+    ListaRegistroCentros()
+    {
+        cabeza = actual = final = NULL;
+    }
+    ~ListaRegistroCentros();
+    void insertarNodo(RegistroCentros v);
+    void borrarNodo(RegistroCentros v);
+    void borrarNodoPorRegistroID(int v);
+    bool listaVacia();
+    void esCabeza();
+    void esFinal();
+    void esSiguiente();
+    bool esActual();
+    RegistroCentros valorActual();
+    void recorrerLista();
+    void imprimirDatosMedianteRegistoDeLista(ArbolABB *arbolDeCentros);
+    int contarElementosLista();
+    bool buscarID(int v);
+    bool buscarCentro(string v);
+};
+
 
 void Mostrar(int&);
 void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
 int generarNumeroRandom();
 string randomCentrosNoRegistrado (ListaRegistroCentros *listaCentros);
+void  estadoCentrosArbol(ArbolABB *arbolDeCentros);
 
 
 #endif // PECL2_H_INCLUDED
