@@ -68,6 +68,9 @@ public:
     bool esActual();
     RegistroCentros valorActual();
     void recorrerLista();
+    int contarElementosLista();
+    bool buscarID(int v);
+    bool buscarCentro(string v);
 };
 
 
@@ -186,5 +189,9 @@ class ArbolABB
 
 
 void Mostrar(int&);
+void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
+int generarNumeroRandom();
+string randomCentrosNoRegistrado (ListaRegistroCentros *listaCentros);
+
 
 #endif // PECL2_H_INCLUDED

@@ -123,6 +123,51 @@ void ListaRegistroCentros::recorrerLista()
     cout << endl;
 }
 
+bool ListaRegistroCentros::buscarID(int v)
+{
+    pnodo aux;
+    aux = cabeza;
+    while(aux)
+    {
+        //cout << aux->valor.IdCentro << "-> ";
+        if (aux->valor.IdCentro == v){
+            return true;
+        }
+        aux = aux->siguiente;
+    }
+    //cout << endl;
+    return false;
+}
+
+bool ListaRegistroCentros::buscarCentro(string v)
+{
+    pnodo aux;
+    aux = cabeza;
+    while(aux)
+    {
+        //cout << aux->valor.IdCentro << "-> ";
+        if (aux->valor.CentroRef == v){
+            return true;
+        }
+        aux = aux->siguiente;
+    }
+    //cout << endl;
+    return false;
+}
+
+int ListaRegistroCentros::contarElementosLista()
+{
+    pnodo aux;
+    int contador=0;
+    aux = cabeza;
+    while(aux)
+    {
+        contador= contador +1;
+        aux = aux->siguiente;
+    }
+    return contador;
+}
+
 
 
 
@@ -568,12 +613,73 @@ void Mostrar(int &d)
    cout << d << ",";
 }
 
-// Función generadora de centros y asocación al arbol.
-void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros){
-    for (int i=0; i< numSimulaciones; i++){
+string centrosPosibles[] = {  "Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon", "Torrejon",
 
+                            "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro",
 
-    }
+                            "Majadahonda", "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"
+
+                        };
+
+string randomCentros (){
+
+    string centro = centrosPosibles[rand() % (sizeof(centrosPosibles) /sizeof(centrosPosibles[0])) ];
+    return centro;
+
 }
 
+string randomCentrosNoRegistrado (ListaRegistroCentros *listaCentros){
+    string centroAleatorio;
+    do {
+        centroAleatorio = centrosPosibles[rand() % (sizeof(centrosPosibles) /sizeof(centrosPosibles[0])) ];
+    } while (listaCentros->buscarCentro(centroAleatorio));
+    return centroAleatorio;
+}
+
+int generarNumeroRandom() {
+    // Generar un número aleatorio en el rango [0, 999]
+    int numeroRandom = rand() % 1000;
+    return numeroRandom;
+}
+
+int generarNumeroRandomNoRegistrado(ListaRegistroCentros *listaCentros) {
+    // Generar un número aleatorio en el rango [0, 999]
+    int numeroRandom;
+    do {
+        numeroRandom = rand() % 1000;
+    } while (listaCentros->buscarID(numeroRandom));
+    return numeroRandom;
+}
+
+
+// Función generadora de centros y asocación al arbol.
+
+void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros){
+    for (int i=0; i< numSimulaciones; i++){
+        if (  (sizeof(centrosPosibles) /sizeof(centrosPosibles[0]))  > (listaCentros->contarElementosLista()) ){
+            //cout << " hay centro disponibles" << endl;
+            //cout << (listaCentros->contarElementosLista()) << endl;
+            //cout << randomCentros() << endl;
+            RegistroCentros centroRegistro;
+            string centroReferencia=randomCentrosNoRegistrado (listaCentros);
+            int centroReferenciaId=generarNumeroRandomNoRegistrado (listaCentros);
+            centroRegistro.CentroRef=centroReferencia;
+            centroRegistro.IdCentro=centroReferenciaId;
+            listaCentros->insertarNodo(centroRegistro);
+
+            CentroClasificacion centro;
+            centro.CentroRef=centroReferencia;
+            centro.IdCentro=centroReferenciaId;
+            arbolDeCentros->Insertar(centro);
+            //PENSAR TRANSFORMAR EL ARBOL O NO PARA QUE LOS NODOS SEAN PUNTEROS A CENTROS DE CLASFICACION;
+            //CentroClasificacion *centro= new CentroClasificacion();
+           // centro->CentroRef=centroReferencia;
+           // centro->IdCentro=centroReferenciaId;
+           //  arbolDeCentros->Insertar(centro);
+        }
+        else {
+            cout << " NO hay centro disponibles" << endl;
+        }
+    }
+}
 
