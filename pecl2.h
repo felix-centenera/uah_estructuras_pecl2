@@ -279,4 +279,5 @@ void crearCCmanual(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros)
 void borrarCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
 void mostrarDatosCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
 void buscarCajaPorID(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
+void buscarCajaPorIDyBorrar(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
 #endif // PECL2_H_INCLUDED

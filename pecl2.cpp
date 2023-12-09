@@ -1163,6 +1163,33 @@ void buscarCajaPorID(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentro
     }
 }
 
+
+//OPCION 5 menu
+void buscarCajaPorIDyBorrar(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
+    string idCaja;
+    cin.ignore();
+    cout << "Introduzca ID de la caja que desea borrar: ";
+    getline(cin, idCaja);
+    Caja caja;
+    caja=listaCentros->buscarCajaMedianteRegistroDeCajas(idCaja,arbolDeCentros);
+    if (caja.Id=="CajaNoEncontrada"){
+        cout << "La caja no fue encontrar" << endl;
+    }
+    else{
+        cout << "La caja fue encontrada y se borrara" << endl;
+        cout << "Centro de referncia: " << caja.CentroRef << endl;
+        cout << "Contenido: " << caja.Contenido << endl;
+        cout << "Fecha de consumo: " <<  caja.FechaConsumo << endl;
+        cout << "Fecha de recogida: " << caja.FechaRecogida << endl;
+        cout << "ID de la caja: " << caja.Id << endl;
+        cout << "ID del centro: " <<caja.IdCentro << endl;
+        //arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro).listaDeCajas->borrarNodoPorCajaID(caja.Id);
+        CentroClasificacion* centroEncontrado = arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro);
+        centroEncontrado->listaDeCajas.borrarNodoPorCajaID(caja.Id);
+        //arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro)->listaDeCajas->borrarNodoPorCajaID(caja.Id);
+    }
+}
+
 //void  estadoCentrosArbol(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros){
     //listaCentros.recorrerLista
     //arbolDeCentros->PreOrden(Mostrar);

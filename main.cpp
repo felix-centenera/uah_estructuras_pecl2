@@ -62,6 +62,7 @@ int main(){
                     break;
             case 5:
                     cout << "Opcion5" << endl;
+                    buscarCajaPorIDyBorrar(listaCentros,arbolDeCentros);
                     break;
             case 6:
                     cout << "Opcion6" << endl;
