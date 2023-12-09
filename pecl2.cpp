@@ -1164,7 +1164,7 @@ void buscarCajaPorID(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentro
 }
 
 
-//OPCION 5 menu
+//OPCION 5 menu TOQA
 void buscarCajaPorIDyBorrar(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
     string idCaja;
     cin.ignore();
