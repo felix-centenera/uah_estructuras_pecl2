@@ -333,7 +333,7 @@ Caja Lista::valorActual()
 }
 
 
-void Lista::recorrerLista()
+void Lista::recorrerLista() //CAmbiar nombre mas descriptivo, haciendo print de  los id.
 {
     pnodocaja aux;
     aux = cabeza;
@@ -343,6 +343,21 @@ void Lista::recorrerLista()
         aux = aux->siguiente;
     }
     cout << endl;
+}
+
+// Devolver pila de cajas lista para impresion Pila *pilaDeCajas = new Pila();
+Pila * Lista::recorrerListaCajas(Pila *pilaDeCajas)
+{
+    pnodocaja aux;
+    aux = cabeza;
+    while(aux)
+    {
+        //cout << aux->valor.Id << "-> ";
+        pilaDeCajas->apilar(aux->valor);
+        //return aux->valor;
+        aux = aux->siguiente;
+    }
+    return pilaDeCajas;
 }
 
 int Lista::numeroDeElementos()
@@ -435,7 +450,7 @@ void ArbolABB::Borrar(const CentroClasificacion dat)
 {
    NodoArbol *padre = NULL;
    NodoArbol *nodo;
-   int aux;
+   CentroClasificacion *aux;
 
    actual = raiz;
    // Mientras sea posible que el valor esté en el árbol
@@ -476,10 +491,18 @@ void ArbolABB::Borrar(const CentroClasificacion dat)
             // y continuar, cerrando el bucle. El nodo encontrado no tiene
             // por qué ser un nodo hoja, cerrando el bucle nos aseguramos
             // de que sólo se eliminan nodos hoja.
-            aux = actual->dato->IdCentro;
-            actual->dato->IdCentro = nodo->dato->IdCentro;
-            nodo->dato->IdCentro = aux;
+
+            //OJO LO SIGUENTE ES LO QUE HABIA
+            //aux = actual->dato->IdCentro;
+            //actual->dato->IdCentro = nodo->dato->IdCentro;
+            //nodo->dato->IdCentro = aux;
+            //actual = nodo;
+            //OJO LO ANTERIOR ES LO QUE HABIA
+            aux = actual->dato;
+            actual->dato = nodo->dato;
+            nodo->dato = aux;
             actual = nodo;
+
          }
       }
       else { // Todavía no hemos encontrado el valor, seguir buscándolo
@@ -496,7 +519,7 @@ void ArbolABB::BorrarPorId(const int dat)
 {
    NodoArbol *padre = NULL;
    NodoArbol *nodo;
-   int aux;
+   CentroClasificacion *aux;
 
    actual = raiz;
    // Mientras sea posible que el valor esté en el árbol
@@ -505,12 +528,20 @@ void ArbolABB::BorrarPorId(const int dat)
          if(EsHoja(actual)) { // Y si además es un nodo hoja: lo borramos
             if(padre){ // Si tiene padre (no es el nodo raiz)
                // Anulamos el puntero que le hace referencia
-               if(padre->derecho == actual) padre->derecho = NULL;
-               else if(padre->izquierdo == actual) padre->izquierdo = NULL;
+               if(padre->derecho == actual) {
+                    padre->derecho = NULL;
+                    cout << "DEBUG 1" << endl;
+                }
+
+               else if(padre->izquierdo == actual){
+                    padre->izquierdo = NULL;
+                cout << "DEBUG 2" << endl;
+            }
             }
             else raiz=NULL;
 
             delete actual; // Borrar el nodo
+                cout << "DEBUG 3" << endl;
             actual = NULL;
             return;
          }
@@ -537,10 +568,17 @@ void ArbolABB::BorrarPorId(const int dat)
             // y continuar, cerrando el bucle. El nodo encontrado no tiene
             // por qué ser un nodo hoja, cerrando el bucle nos aseguramos
             // de que sólo se eliminan nodos hoja.
-            aux = actual->dato->IdCentro;
-            actual->dato->IdCentro = nodo->dato->IdCentro;
-            nodo->dato->IdCentro = aux;
+            //OJO LO SIGUENTE ES LO QUE HABIA
+            //aux = actual->dato->IdCentro;
+            //actual->dato->IdCentro = nodo->dato->IdCentro;
+            //nodo->dato->IdCentro = aux;
+            //actual = nodo;
+            //OJO LO ANTERIOR ES LO QUE HABIA
+            aux = actual->dato;
+            actual->dato = nodo->dato;
+            nodo->dato = aux;
             actual = nodo;
+
          }
       }
       else { // Todavía no hemos encontrado el valor, seguir buscándolo
@@ -986,6 +1024,61 @@ void crearCCmanual(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros)
 
 }
 
+
+//OPCION 2 menu
+
+void borrarCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
+    int centroReferenciaId;
+    cout << "Listado de intentificadores de CC disponibles: ";
+    arbolDeCentros->InOrden(Mostrar);
+
+    cout << "Por favor, ingrese el numero de indentificacion del centro: ";
+    cin >> centroReferenciaId;
+
+    if (!listaCentros->buscarID(centroReferenciaId) ) {
+            cout << "El numero ingresado no esta registrado. No se borrara nigun centro." << endl;
+        }
+    if (listaCentros->buscarID(centroReferenciaId) ) {
+            cout << "El numero ingresado  esta registrado. Se borrara ese centro." << endl;
+            listaCentros->borrarNodoPorRegistroID(centroReferenciaId);
+            arbolDeCentros->BorrarPorId(centroReferenciaId);
+        }
+
+
+
+}
+
+//OPCION 3 menu
+void mostrarDatosCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
+
+    int centroReferenciaId;
+    cout << "Introduzca ID del Centro de Clasificacion que desea buscar: ";
+    cout << "Listado de intentificadores de CC disponibles: ";
+    arbolDeCentros->InOrden(Mostrar);
+    cin >> centroReferenciaId;
+
+    if (!listaCentros->buscarID(centroReferenciaId) ) {
+            cout << "El ID ingresado no esta registrado. No se encuentra el centro." << endl;
+        }
+    if (listaCentros->buscarID(centroReferenciaId) ) {
+            cout << "Centro encontrado." << endl;
+            //listaCentros->borrarNodoPorRegistroID(centroReferenciaId);
+            //arbolDeCentros->BorrarPorId(centroReferenciaId);
+            cout << "ID Central: " << arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->IdCentro << endl;
+            cout  << "Localidad: " << arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->CentroRef << endl;
+            cout  << "Num cajas: " << arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->listaDeCajas.numeroDeElementos() << endl;
+            //arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->listaDeCajas.recorrerLista()
+
+            Pila *pilaDeCajas = new Pila();
+            pilaDeCajas=arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->listaDeCajas.recorrerListaCajas(pilaDeCajas);
+            printDatosPilaCajas(pilaDeCajas);
+
+            //pilaDeCajas->apilar(arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->listaDeCajas.recorrerListaCajas());
+            //printDatosPilaCajas(pilaDeCajas);
+            //arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->listaDeCajas.
+        }
+}
+
 //void  estadoCentrosArbol(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros){
     //listaCentros.recorrerLista
     //arbolDeCentros->PreOrden(Mostrar);
@@ -1062,14 +1155,15 @@ cout << "|" << setw(10) << "ID Caja |"
      << setw(14) << "Fecha cons |"
      << setw(4) << "Dia |" << endl;
 cout << "----------------------------------------------------------------------" << endl;
-for (int i=0; i < N2; i++) {
+int numCajas=pilaDeCajas->contarElementosPila();
+for (int i=0; i < numCajas; i++) {
     if (pilaDeCajas->vacia()) {
         cout << "|" << setw(10) << "--- |"
                     << setw(12) << "--- |"
+                    << setw(12) << "--- |"
+                    << setw(16) << "--- |"
                     << setw(14) << "--- |"
-                    << setw(14) << "--- |"
-                    << setw(14) << "--- |"
-                    << setw(14) << "--- |" << endl;
+                    << setw(4) << "--- |" << endl;
     }
     else {
         cout << "|" << setw(10) << pilaDeCajas->mostrarCima().Id + "|"

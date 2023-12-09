@@ -62,6 +62,38 @@ struct RegistroCentros
 };
 
 
+//----------PILA
+class NodoPila
+{
+private:
+    Caja valor;
+    NodoPila *siguiente;
+    friend class Pila;
+public:
+    NodoPila(Caja v, NodoPila *sig = NULL)
+    {
+        valor = v;
+        siguiente = sig;
+    }
+};
+typedef NodoPila *pNodo;
+
+class Pila
+{
+private:
+    pNodo cima;
+public:
+    Pila() : cima(NULL) {} //Constructor de la Pila
+    ~Pila();
+    void apilar(Caja v);
+    Caja desapilar();
+    Caja mostrarCima();
+    bool vacia();
+    int contarElementosPila();
+};
+
+Pila *copiarPila(Pila *pilaOriginal);
+Pila* invertirPila(Pila* pilaOriginal);
 
 
 // ----------------------------------------------- LISTA Cajas -----------------------------------------------
@@ -101,6 +133,8 @@ public:
     bool esActual();
     Caja valorActual();
     void recorrerLista();
+    //Caja recorrerListaCajas();
+    Pila * recorrerListaCajas(Pila *pilaDeCajas);
     int numeroDeElementos();
 };
 
@@ -233,43 +267,13 @@ string randomCentrosNoRegistrado (ListaRegistroCentros *listaCentros);
 void  estadoCentrosArbol(ArbolABB *arbolDeCentros);
 
 
-//----------PILA
-class NodoPila
-{
-private:
-    Caja valor;
-    NodoPila *siguiente;
-    friend class Pila;
-public:
-    NodoPila(Caja v, NodoPila *sig = NULL)
-    {
-        valor = v;
-        siguiente = sig;
-    }
-};
-typedef NodoPila *pNodo;
 
-class Pila
-{
-private:
-    pNodo cima;
-public:
-    Pila() : cima(NULL) {} //Constructor de la Pila
-    ~Pila();
-    void apilar(Caja v);
-    Caja desapilar();
-    Caja mostrarCima();
-    bool vacia();
-    int contarElementosPila();
-};
-
-Pila *copiarPila(Pila *pilaOriginal);
-Pila* invertirPila(Pila* pilaOriginal);
 
 void simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas );
 void printDatosPilaCajas(Pila* pilaDeCajas);
 void repartirCajas(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas );
 void printMenu(int &opcion);
 void crearCCmanual(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
-
+void borrarCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
+void mostrarDatosCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
 #endif // PECL2_H_INCLUDED

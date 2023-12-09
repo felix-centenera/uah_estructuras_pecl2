@@ -49,10 +49,12 @@ int main(){
                 cout << "Opcion1" << endl;
                 crearCCmanual(listaCentros,arbolDeCentros);
             case 2:
-                    cout << "Opcion2" << endl;
-                    break;
+                cout << "Opcion2" << endl;
+                borrarCC(listaCentros, arbolDeCentros);
+                break;
             case 3:
                     cout << "Opcion3" << endl;
+                    mostrarDatosCC(listaCentros,arbolDeCentros);
                     break;
             case 4:
                     cout << "Opcion4" << endl;
