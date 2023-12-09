@@ -133,7 +133,7 @@ void ListaRegistroCentros::imprimirDatosMedianteRegistoDeLista(ArbolABB *arbolDe
         if (arbolDeCentros->BuscarPorId(aux->valor.IdCentro)){
             //cout << aux->valor.IdCentro << "-> se encontro";
             //cout << "el id es yeah: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro).CentroRef << endl;
-            cout << "ID: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro).IdCentro << "   Localidad:   " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro).CentroRef << "    Num cajas:  " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro).listaDeCajas.numeroDeElementos() << endl;
+            cout << "ID: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro)->IdCentro << "   Localidad:   " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro)->CentroRef << "  Num cajas:  " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro)->listaDeCajas.numeroDeElementos() << endl;
         }
         aux = aux->siguiente;
     }
@@ -243,9 +243,11 @@ void Lista::insertarNodo(Caja v)
     {
         cabeza = new Nodo(v, NULL);
         final=cabeza;
+        //cout << "VOUY A INTENTARLOOOOOOO aunque este vacias" << endl;
     }
     else
     {
+        //cout << "VOUY A INTENTARLOOOOOOO" << endl;
         aux= new Nodo(v,NULL);
         final->siguiente=aux;
         final=aux;
@@ -384,8 +386,9 @@ void ArbolABB::Raiz()
             actual = raiz;
         }
 
-CentroClasificacion ArbolABB::VerRaiz()
+CentroClasificacion *ArbolABB::VerRaiz()
 {
+   // return raiz->dato;
     return raiz->dato;
 }
 
@@ -402,16 +405,16 @@ void ArbolABB::Podar(NodoArbol* &nodo)
 }
 
 // Insertar un CentroClasificacion en el árbol ABB
-void ArbolABB::Insertar(const CentroClasificacion dat)
+void ArbolABB::Insertar( CentroClasificacion* dat)
 {
    NodoArbol *padre = NULL;
 
    actual = raiz;
    // Buscar el int/CentroClasificacion en el árbol, manteniendo un puntero al nodo padre
-   while(!Vacio(actual) && dat.IdCentro != actual->dato.IdCentro) {
+   while(!Vacio(actual) && dat->IdCentro != actual->dato->IdCentro) {
       padre = actual;
-      if(dat.IdCentro > actual->dato.IdCentro) actual = actual->derecho;
-      else if(dat.IdCentro < actual->dato.IdCentro) actual = actual->izquierdo;
+      if(dat->IdCentro > actual->dato->IdCentro) actual = actual->derecho;
+      else if(dat->IdCentro < actual->dato->IdCentro) actual = actual->izquierdo;
    }
 
    // Si se ha encontrado el elemento, regresar sin insertar
@@ -421,10 +424,10 @@ void ArbolABB::Insertar(const CentroClasificacion dat)
    if(Vacio(padre)) raiz = new NodoArbol(dat);
    // Si el int es menor que el que contiene el nodo padre, lo insertamos
    // en la rama izquierda
-   else if(dat.IdCentro < padre->dato.IdCentro) padre->izquierdo = new NodoArbol(dat);
+   else if(dat->IdCentro < padre->dato->IdCentro) padre->izquierdo = new NodoArbol(dat);
    // Si el int es mayor que el que contiene el nodo padre, lo insertamos
    // en la rama derecha
-   else if(dat.IdCentro > padre->dato.IdCentro) padre->derecho = new NodoArbol(dat);
+   else if(dat->IdCentro > padre->dato->IdCentro) padre->derecho = new NodoArbol(dat);
 }
 
 // Eliminar un elemento de un árbol ABB
@@ -437,7 +440,7 @@ void ArbolABB::Borrar(const CentroClasificacion dat)
    actual = raiz;
    // Mientras sea posible que el valor esté en el árbol
    while(!Vacio(actual)) {
-      if(dat.IdCentro == actual->dato.IdCentro) { // Si el valor está en el nodo actual
+      if(dat.IdCentro == actual->dato->IdCentro) { // Si el valor está en el nodo actual
          if(EsHoja(actual)) { // Y si además es un nodo hoja: lo borramos
             if(padre){ // Si tiene padre (no es el nodo raiz)
                // Anulamos el puntero que le hace referencia
@@ -473,16 +476,16 @@ void ArbolABB::Borrar(const CentroClasificacion dat)
             // y continuar, cerrando el bucle. El nodo encontrado no tiene
             // por qué ser un nodo hoja, cerrando el bucle nos aseguramos
             // de que sólo se eliminan nodos hoja.
-            aux = actual->dato.IdCentro;
-            actual->dato.IdCentro = nodo->dato.IdCentro;
-            nodo->dato.IdCentro = aux;
+            aux = actual->dato->IdCentro;
+            actual->dato->IdCentro = nodo->dato->IdCentro;
+            nodo->dato->IdCentro = aux;
             actual = nodo;
          }
       }
       else { // Todavía no hemos encontrado el valor, seguir buscándolo
          padre = actual;
-         if(dat.IdCentro > actual->dato.IdCentro) actual = actual->derecho;
-         else if(dat.IdCentro < actual->dato.IdCentro) actual = actual->izquierdo;
+         if(dat.IdCentro > actual->dato->IdCentro) actual = actual->derecho;
+         else if(dat.IdCentro < actual->dato->IdCentro) actual = actual->izquierdo;
       }
    }
 }
@@ -498,7 +501,7 @@ void ArbolABB::BorrarPorId(const int dat)
    actual = raiz;
    // Mientras sea posible que el valor esté en el árbol
    while(!Vacio(actual)) {
-      if(dat == actual->dato.IdCentro) { // Si el valor está en el nodo actual
+      if(dat == actual->dato->IdCentro) { // Si el valor está en el nodo actual
          if(EsHoja(actual)) { // Y si además es un nodo hoja: lo borramos
             if(padre){ // Si tiene padre (no es el nodo raiz)
                // Anulamos el puntero que le hace referencia
@@ -534,16 +537,16 @@ void ArbolABB::BorrarPorId(const int dat)
             // y continuar, cerrando el bucle. El nodo encontrado no tiene
             // por qué ser un nodo hoja, cerrando el bucle nos aseguramos
             // de que sólo se eliminan nodos hoja.
-            aux = actual->dato.IdCentro;
-            actual->dato.IdCentro = nodo->dato.IdCentro;
-            nodo->dato.IdCentro = aux;
+            aux = actual->dato->IdCentro;
+            actual->dato->IdCentro = nodo->dato->IdCentro;
+            nodo->dato->IdCentro = aux;
             actual = nodo;
          }
       }
       else { // Todavía no hemos encontrado el valor, seguir buscándolo
          padre = actual;
-         if(dat > actual->dato.IdCentro) actual = actual->derecho;
-         else if(dat < actual->dato.IdCentro) actual = actual->izquierdo;
+         if(dat > actual->dato->IdCentro) actual = actual->derecho;
+         else if(dat < actual->dato->IdCentro) actual = actual->izquierdo;
       }
    }
 }
@@ -556,7 +559,7 @@ void ArbolABB::InOrden(void (*func)(int&) , NodoArbol *nodo, bool r)
   if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return;}
    if(r) nodo = raiz;
    if(nodo->izquierdo) InOrden(func, nodo->izquierdo, false);
-   func(nodo->dato.IdCentro);
+   func(nodo->dato->IdCentro);
    if(nodo->derecho) InOrden(func, nodo->derecho, false);
 }
 
@@ -567,7 +570,7 @@ void ArbolABB::PreOrden(void (*func)(int&), NodoArbol *nodo, bool r)
 {
       if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return;}
    if(r) nodo = raiz;
-   func(nodo->dato.IdCentro);
+   func(nodo->dato->IdCentro);
    if(nodo->izquierdo) PreOrden(func, nodo->izquierdo, false);
    if(nodo->derecho) PreOrden(func, nodo->derecho, false);
 }
@@ -581,7 +584,7 @@ void ArbolABB::PostOrden(void (*func)(int&), NodoArbol *nodo, bool r)
    if(r) nodo = raiz;
    if(nodo->izquierdo) PostOrden(func, nodo->izquierdo, false);
    if(nodo->derecho) PostOrden(func, nodo->derecho, false);
-   func(nodo->dato.IdCentro);
+   func(nodo->dato->IdCentro);
 }
 
 // Buscar un valor en el árbol
@@ -591,9 +594,9 @@ bool ArbolABB::Buscar(const CentroClasificacion dat)
 
    // Todavía puede aparecer, ya que quedan nodos por mirar
    while(!Vacio(actual)) {
-      if(dat.IdCentro == actual->dato.IdCentro) return true; // int encontrado
-      else if(dat.IdCentro > actual->dato.IdCentro) actual = actual->derecho; // Seguir
-      else if(dat.IdCentro < actual->dato.IdCentro) actual = actual->izquierdo;
+      if(dat.IdCentro == actual->dato->IdCentro) return true; // int encontrado
+      else if(dat.IdCentro > actual->dato->IdCentro) actual = actual->derecho; // Seguir
+      else if(dat.IdCentro < actual->dato->IdCentro) actual = actual->izquierdo;
    }
    return false; // No está en árbol
 }
@@ -605,23 +608,23 @@ bool ArbolABB::BuscarPorId(const int dat)
 
    // Todavía puede aparecer, ya que quedan nodos por mirar
    while(!Vacio(actual)) {
-      if(dat == actual->dato.IdCentro) return true; // int encontrado
-      else if(dat > actual->dato.IdCentro) actual = actual->derecho; // Seguir
-      else if(dat < actual->dato.IdCentro) actual = actual->izquierdo;
+      if(dat == actual->dato->IdCentro) return true; // int encontrado
+      else if(dat > actual->dato->IdCentro) actual = actual->derecho; // Seguir
+      else if(dat < actual->dato->IdCentro) actual = actual->izquierdo;
    }
    return false; // No está en árbol
 }
 
 
 // Buscar por id en el arbol y devolver el centro de clasificación.
-CentroClasificacion ArbolABB::BuscarPorIdRecuperarCC(const int dat)
+CentroClasificacion * ArbolABB::BuscarPorIdRecuperarCC(const int dat)
 {
    actual = raiz;
    // Todavía puede aparecer, ya que quedan nodos por mirar
    while(!Vacio(actual)) {
-      if(dat == actual->dato.IdCentro) return actual->dato; // int encontrado
-      else if(dat > actual->dato.IdCentro) actual = actual->derecho; // Seguir
-      else if(dat < actual->dato.IdCentro) actual = actual->izquierdo;
+      if(dat == actual->dato->IdCentro) return actual->dato; // int encontrado
+      else if(dat > actual->dato->IdCentro) actual = actual->derecho; // Seguir
+      else if(dat < actual->dato->IdCentro) actual = actual->izquierdo;
    }
    // No está en árbol
 }
@@ -636,11 +639,11 @@ int ArbolABB::Altura(const CentroClasificacion dat)
 
    // Todavía puede aparecer, ya que quedan nodos por mirar
    while(!Vacio(actual)) {
-      if(dat.IdCentro == actual->dato.IdCentro) return altura; // int encontrado
+      if(dat.IdCentro == actual->dato->IdCentro) return altura; // int encontrado
       else {
          altura++; // Incrementamos la altura, seguimos buscando
-         if(dat.IdCentro > actual->dato.IdCentro) actual = actual->derecho;
-         else if(dat.IdCentro < actual->dato.IdCentro) actual = actual->izquierdo;
+         if(dat.IdCentro > actual->dato->IdCentro) actual = actual->derecho;
+         else if(dat.IdCentro < actual->dato->IdCentro) actual = actual->izquierdo;
       }
    }
    return -1; // No está en árbol
@@ -907,6 +910,8 @@ int generarNumeroAleatorio() {
 
 void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros){
     for (int i=0; i< numSimulaciones; i++){
+
+        //BUG EN CASO DE QUE SE AÑADAN MANUALMENTE CENTROS
         if (  (sizeof(centrosPosibles) /sizeof(centrosPosibles[0]))  > (listaCentros->contarElementosLista()) ){
             //cout << " hay centro disponibles" << endl;
             //cout << (listaCentros->contarElementosLista()) << endl;
@@ -918,21 +923,67 @@ void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaC
             centroRegistro.IdCentro=centroReferenciaId;
             listaCentros->insertarNodo(centroRegistro);
 
+            // antes de borrar debug
+            /*
             CentroClasificacion centro;
             centro.CentroRef=centroReferencia;
             centro.IdCentro=centroReferenciaId;
             arbolDeCentros->Insertar(centro);
-            //PENSAR TRANSFORMAR EL ARBOL O NO PARA QUE LOS NODOS SEAN PUNTEROS A CENTROS DE CLASFICACION;
-            //CentroClasificacion *centro= new CentroClasificacion();
-           // centro->CentroRef=centroReferencia;
-           // centro->IdCentro=centroReferenciaId;
-           //  arbolDeCentros->Insertar(centro);
+            */
+
+            //HECHO TRANSFORMAR EL ARBOL O NO PARA QUE LOS NODOS SEAN PUNTEROS A CENTROS DE CLASFICACION;
+            CentroClasificacion *centro= new CentroClasificacion();
+            centro->CentroRef=centroReferencia;
+            centro->IdCentro=centroReferenciaId;
+            arbolDeCentros->Insertar(centro);
+
         }
         else {
             cout << " NO hay centro disponibles" << endl;
         }
     }
     cout << "Arbol vacio creado:\n" << endl;
+}
+
+//OPCION 1 menu
+void crearCCmanual(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros){
+
+    int centroReferenciaId;
+    string centroReferencia;
+    do {
+        cout << "Por favor, ingrese un numero de tres cifras: ";
+        cin >> centroReferenciaId;
+
+        if (centroReferenciaId < 100 || centroReferenciaId > 999) {
+            cout << "El numero ingresado no tiene tres cifras. Intenta de nuevo." << endl;
+        }
+
+        if (listaCentros->buscarID(centroReferenciaId) ) {
+            cout << "El numero ingresado ya esta registrado. Intenta de nuevo." << endl;
+        }
+
+    } while (listaCentros->buscarID(centroReferenciaId)  || centroReferenciaId < 100 || centroReferenciaId > 999  );
+
+
+    do {
+        cin.ignore();
+        cout << "Por favor, ingrese un nombre de centro: ";
+        getline(cin, centroReferencia);
+        if (listaCentros->buscarCentro(centroReferencia)) {
+            cout << "El nombre ingresado ya esta registrado. Intenta de nuevo." << endl;
+        }
+    } while (listaCentros->buscarCentro(centroReferencia));
+
+    RegistroCentros centroRegistro;
+    centroRegistro.CentroRef=centroReferencia;
+    centroRegistro.IdCentro=centroReferenciaId;
+    listaCentros->insertarNodo(centroRegistro);
+
+    CentroClasificacion *centro= new CentroClasificacion();
+    centro->CentroRef=centroReferencia;
+    centro->IdCentro=centroReferenciaId;
+    arbolDeCentros->Insertar(centro);
+
 }
 
 //void  estadoCentrosArbol(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros){
@@ -952,6 +1003,7 @@ void simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, List
         nuevaCaja.FechaConsumo=fechaCaducidad(nuevaCaja.Contenido);
         nuevaCaja.Id=generadorIDCaja();
         nuevaCaja.FechaRecogida=generarNumeroAleatorio();
+
         //cout << nuevaCaja.CentroRef << " " << nuevaCaja.Contenido << " " << nuevaCaja.FechaConsumo << " " << nuevaCaja.FechaRecogida << " " << nuevaCaja.Id << " " << nuevaCaja.IdCentro << endl;
         pilaDeCajas->apilar(nuevaCaja);
     }
@@ -966,7 +1018,38 @@ void simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, List
 }
 
 
+void repartirCajas(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas ) {
+    //cout << listaCentros->valorActual().estadistica.aceite << endl;
 
+    while (!pilaDeCajas->vacia()){
+
+        //arbolDeCentros->BuscarPorIdRecuperarCC();
+        //cout << pilaDeCajas->mostrarCima().IdCentro << endl;
+
+        //CentroClasificacion centro2=arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro);
+        //cout << arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro)->listaDeCajas.numeroDeElementos() << endl;
+        arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro)->listaDeCajas.insertarNodo(pilaDeCajas->desapilar());
+        //cout << arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro)->listaDeCajas.numeroDeElementos() << endl;
+
+    }
+}
+
+void printMenu(int &opcion){
+    cout << "Opciones disponibles:" << endl;
+    cout << "1- Insertar un CC de forma manual." << endl;
+    cout << "2- Borrar un CC del arbol." << endl;
+    cout << "3- Mostrar los datos de las cajas que se distribuiran desde un CC dado." << endl;
+    cout << "4- Buscar una caja concreta por su ID." << endl;
+    cout << "5- Extraer una caja concreta." << endl;
+    cout << "6- Llevar una caja concreta de un CC a otro." << endl;
+    cout << "7- Mostrar una estadistica de los CC de la ONG." << endl;
+    cout << "8- Continuar con la distribucion de cajas." << endl;
+    cout << "0) Salir del programa." << endl;
+
+    cout << "Seleccione una opcion del menu:"  << endl;
+    cin >> opcion;
+
+}
 
 void printDatosPilaCajas(Pila* pilaDeCajas){
 

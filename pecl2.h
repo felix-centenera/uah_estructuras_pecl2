@@ -121,14 +121,14 @@ class NodoArbol
 {
     private:
         // Miembros:
-        CentroClasificacion dato;
+        CentroClasificacion * dato;
         NodoArbol *izquierdo;
         NodoArbol *derecho;
         friend class ArbolABB;
 
     public:
         // Constructor:
-        NodoArbol(const CentroClasificacion dat, NodoArbol *izq=NULL, NodoArbol *der=NULL) :
+        NodoArbol( CentroClasificacion *dat, NodoArbol *izq=NULL, NodoArbol *der=NULL) :
             dato(dat), izquierdo(izq), derecho(der) {}
 
 };
@@ -147,14 +147,14 @@ class ArbolABB
         ArbolABB() : raiz(NULL), actual(NULL) {}
         ~ArbolABB();
          // Insertar en árbol ordenado:
-        void Insertar(const CentroClasificacion dat);
+        void Insertar( CentroClasificacion* dat);
         // Borrar un elemento del árbol:
         void Borrar(const CentroClasificacion dat);
         void BorrarPorId(const int dat);
         // Función de búsqueda:
         bool Buscar(const CentroClasificacion dat);
         bool BuscarPorId(const int dat);
-        CentroClasificacion BuscarPorIdRecuperarCC(const int dat);
+        CentroClasificacion * BuscarPorIdRecuperarCC(const int dat);
         // Comprobar si el árbol está vacío:
         bool Vacio(NodoArbol *r);
         // Comprobar si es un nodo hoja:
@@ -166,7 +166,7 @@ class ArbolABB
         int Altura(const CentroClasificacion dat);
         // Moverse al nodo raiz:
         void Raiz();
-        CentroClasificacion VerRaiz();
+        CentroClasificacion* VerRaiz();
         // Aplicar una función a cada elemento del árbol:
         void InOrden(void (*func)(int&), NodoArbol *nodo=NULL, bool r=true);
         void PreOrden(void (*func)(int&), NodoArbol *nodo=NULL, bool r=true);
@@ -268,6 +268,8 @@ Pila* invertirPila(Pila* pilaOriginal);
 
 void simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas );
 void printDatosPilaCajas(Pila* pilaDeCajas);
-
+void repartirCajas(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas );
+void printMenu(int &opcion);
+void crearCCmanual(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
 
 #endif // PECL2_H_INCLUDED

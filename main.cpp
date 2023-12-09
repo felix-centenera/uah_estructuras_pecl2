@@ -4,6 +4,7 @@
 using namespace std;
 
 int main(){
+    int opcion=0;
     //Creamos una lista de tipo RegistroDeCentros.
     //ListaRegistroCentros *lista= new ListaRegistroCentros();
     ListaRegistroCentros *listaCentros= new ListaRegistroCentros();
@@ -13,21 +14,130 @@ int main(){
     cout << "Creado el ABB con los siguientes 10 nodos:\n" << endl;
     simulacionCentroDeControl(N1, listaCentros, arbolDeCentros);
 
-
     listaCentros->imprimirDatosMedianteRegistoDeLista(arbolDeCentros);
     //estadoCentrosArbol(arbolDeCentros);
 
 
 
     cout << "Creando las siguientes cajas nuevas:\n" << endl;
-    //simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* cajas )
     simulacionCreacionCajas(N2,arbolDeCentros,listaCentros,pilaDeCajas);
 
     Pila *pilaDeCajasCopia = copiarPila(pilaDeCajas);
     pilaDeCajas = invertirPila(pilaDeCajas);
     pilaDeCajasCopia = invertirPila(pilaDeCajasCopia);
-
     printDatosPilaCajas(pilaDeCajasCopia);
+
+    cout << "Presiona Enter para continuar...\n";
+    cin.ignore();  // Espera a que el usuario presione Enter
+
+    cout << "Cajas repartidas. Estado del arbol:\n" << endl;
+
+    repartirCajas(arbolDeCentros,listaCentros, pilaDeCajas );
+
+    listaCentros->imprimirDatosMedianteRegistoDeLista(arbolDeCentros);
+
+    cout << "Listado de intentificadores de CC creados: ";
+    arbolDeCentros->InOrden(Mostrar);
+    cout << "\n" << endl;
+
+
+    do {
+        printMenu(opcion);
+        switch (opcion) {
+            case 1:
+                cin.ignore();
+                cout << "Opcion1" << endl;
+                crearCCmanual(listaCentros,arbolDeCentros);
+            case 2:
+                    cout << "Opcion2" << endl;
+                    break;
+            case 3:
+                    cout << "Opcion3" << endl;
+                    break;
+            case 4:
+                    cout << "Opcion4" << endl;
+                    break;
+            case 5:
+                    cout << "Opcion5" << endl;
+                    break;
+            case 6:
+                    cout << "Opcion6" << endl;
+                    break;
+            case 7:
+                    cout << "Opcion7" << endl;
+                    break;
+            case 8:
+                    cout << "Opcion8" << endl;
+                    listaCentros->imprimirDatosMedianteRegistoDeLista(arbolDeCentros);
+                    break;
+            case 0:
+                    cout << "Nos vemos. ;) " << endl ;
+                    break;
+            default:
+                    cout << "La opcion no estaba en el menu" << endl;
+                    break;
+            }
+        } while(opcion!=0);
+
+
+    cout << "FIN:\n" << endl;
+
+
+    /*
+
+
+    //DEBUG
+
+    //repartir cajas
+    //repartirCajas(arbolDeCentros,listaCentros, pilaDeCajas );
+    int a=pilaDeCajas->mostrarCima().IdCentro;
+    Caja nuevaCaja1;
+    nuevaCaja1.CentroRef="hola";
+    nuevaCaja1.Contenido="patatas";
+    nuevaCaja1.FechaConsumo="mañana";
+    nuevaCaja1.FechaRecogida=2;
+    nuevaCaja1.Id="asdasd";
+    nuevaCaja1.IdCentro=111;
+
+    Caja nuevaCaja2;
+    nuevaCaja2.CentroRef="adios";
+    nuevaCaja2.Contenido="tomates";
+    nuevaCaja2.FechaConsumo="ayer";
+    nuevaCaja2.FechaRecogida=3;
+    nuevaCaja2.Id="tomya";
+    nuevaCaja2.IdCentro=222;
+
+    CentroClasificacion centro;
+    centro.CentroRef="probandoCentro";
+    centro.IdCentro=111;
+    centro.listaDeCajas.insertarNodo(nuevaCaja1);
+    centro.listaDeCajas.insertarNodo(nuevaCaja2);
+    centro.listaDeCajas.recorrerLista();
+    arbolDeCentros->Insertar(centro);
+    arbolDeCentros->PreOrden(Mostrar);
+
+    CentroClasificacion centro2=arbolDeCentros->BuscarPorIdRecuperarCC(111);
+    //cout << centro2.CentroRef << endl;
+    //cout << centro2.IdCentro << endl;
+    //cout << centro2.listaDeCajas.numeroDeElementos() << endl;
+    centro2.listaDeCajas.recorrerLista();
+
+    cout << "mi ultimo debug" << endl;
+
+    arbolDeCentros->BuscarPorIdRecuperarCC(111).listaDeCajas.recorrerLista();
+    cout << arbolDeCentros->BuscarPorIdRecuperarCC(111).listaDeCajas.numeroDeElementos()  << endl;
+
+    //DEBUG
+    //arbolDeCentros->BuscarPorIdRecuperarCC(a).listaDeCajas.insertarNodo(pilaDeCajas->desapilar());
+
+/*
+    arbolDeCentros->BuscarPorIdRecuperarCC(a).listaDeCajas.recorrerLista();
+    if (arbolDeCentros->BuscarPorIdRecuperarCC(a).listaDeCajas.listaVacia()){
+        cout << "la lista esta como uno solar" << endl;
+    }
+    cout << a <<endl;
+*/
+    //listaCentros->imprimirDatosMedianteRegistoDeLista(arbolDeCentros);
 
       /*
     CentroClasificacion centro1;
