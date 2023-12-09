@@ -139,7 +139,51 @@ void ListaRegistroCentros::imprimirDatosMedianteRegistoDeLista(ArbolABB *arbolDe
     }
     cout << endl;
 }
+/*
+Caja ListaRegistroCentros::buscarCajaMedianteRegistroDeCajas(string idCaja,ArbolABB *arbolDeCentros){
+    pnodo aux;
+    aux = cabeza;
+    while(aux)
+    {
+        if (arbolDeCentros->BuscarPorId(aux->valor.IdCentro)){
+            Pila *pilaDeCajas = new Pila();
+            pilaDeCajas=arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro)->listaDeCajas.recorrerListaCajas(pilaDeCajas);
+            while(!pilaDeCajas->vacia()) {
+                    if (idCaja==pilaDeCajas->mostrarCima().Id){
+                        return pilaDeCajas->desapilar();
+                    }
+                    pilaDeCajas->desapilar();
+            }
+        }
+        aux = aux->siguiente;
+    }
+    Caja cajaNoEncontrada;
+    cajaNoEncontrada.Id = "CajaNoEncontrada";
+    return cajaNoEncontrada;
+}
+*/
 
+Caja ListaRegistroCentros::buscarCajaMedianteRegistroDeCajas(string idCaja,ArbolABB *arbolDeCentros){
+    pnodo aux;
+    aux = cabeza;
+    Caja caja;
+    while(aux)
+    {
+        if (arbolDeCentros->BuscarPorId(aux->valor.IdCentro)){
+            //Lista listaDeCajasParaBuscar;
+            //listaDeCajasParaBuscar=
+            caja=arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro)->listaDeCajas.recorrerListaBuscandoCaja(idCaja);
+            if (caja.Id==idCaja){
+                return caja;
+            }
+        }
+        aux = aux->siguiente;
+    }
+    if (caja.Id=="CajaNoEncontrada"){
+                return caja;
+            }
+
+}
 
 bool ListaRegistroCentros::buscarID(int v)
 {
@@ -344,6 +388,24 @@ void Lista::recorrerLista() //CAmbiar nombre mas descriptivo, haciendo print de 
     }
     cout << endl;
 }
+
+
+Caja Lista::recorrerListaBuscandoCaja(string idCaja)
+{
+    pnodocaja aux;
+    aux = cabeza;
+    while(aux)
+    {
+        if (aux->valor.Id == idCaja){
+            return aux->valor;
+        }
+        aux = aux->siguiente;
+    }
+    Caja cajaNoEncontrada;
+    cajaNoEncontrada.Id = "CajaNoEncontrada";
+    return cajaNoEncontrada;
+}
+
 
 // Devolver pila de cajas lista para impresion Pila *pilaDeCajas = new Pila();
 Pila * Lista::recorrerListaCajas(Pila *pilaDeCajas)
@@ -1077,6 +1139,28 @@ void mostrarDatosCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros
             //printDatosPilaCajas(pilaDeCajas);
             //arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->listaDeCajas.
         }
+}
+
+//OPCION 4 menu
+void buscarCajaPorID(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
+    string idCaja;
+    cin.ignore();
+    cout << "Introduzca ID de la caja que desea buscar: ";
+    getline(cin, idCaja);
+    Caja caja;
+    caja=listaCentros->buscarCajaMedianteRegistroDeCajas(idCaja,arbolDeCentros);
+    if (caja.Id=="CajaNoEncontrada"){
+        cout << "La caja no fue encontrar" << endl;
+    }
+    else{
+        cout << "Centro de referncia: " << caja.CentroRef << endl;
+        cout << "Contenido: " << caja.Contenido << endl;
+        cout << "Fecha de consumo: " <<  caja.FechaConsumo << endl;
+        cout << "Fecha de recogida: " << caja.FechaRecogida << endl;
+        cout << "ID de la caja: " << caja.Id << endl;
+        cout << "ID del centro: " <<caja.IdCentro << endl;
+
+    }
 }
 
 //void  estadoCentrosArbol(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros){
