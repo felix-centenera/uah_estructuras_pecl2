@@ -4,6 +4,8 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
+#include <cstdlib>
+#include <ctime>
 #define N1 21 //Numero de centrales de clasificación.
 #define N2 100 // Numero de cajas aleatorias
 

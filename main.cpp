@@ -4,6 +4,7 @@
 using namespace std;
 
 int main(){
+    srand(time(NULL));
     int opcion=0;
     //Creamos una lista de tipo RegistroDeCentros.
     //ListaRegistroCentros *lista= new ListaRegistroCentros();
