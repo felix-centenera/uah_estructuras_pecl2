@@ -4,12 +4,12 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
-#define N1 10 //Numero de centrales de clasificación.
-#define N2 30 // Numero de cajas aleatorias
+#define N1 21 //Numero de centrales de clasificación.
+#define N2 100 // Numero de cajas aleatorias
 
 using namespace std;
 
-// ---------------------------------------------ESTRUCTURAS---------------------------------------------
+// ---------------------------------------------ESTRUCTURAS.---------------------------------------------
 // -----------------------------------------------------------------------------------------------------
 
 // STRUCT Caja:
@@ -263,6 +263,7 @@ public:
     RegistroCentros * buscarIDRecuperarCentroRefCompleto(int v);
     Estadistica *buscarCentroRefRecuperarEstadistica(int v);
     void imprimirDatosEstadisticaMedianteRegistoDeLista(ArbolABB *arbolDeCentros,Estadistica *estadisticaTotal);
+    string randomIDCentro();
 };
 
 

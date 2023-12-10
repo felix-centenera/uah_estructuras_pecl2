@@ -231,6 +231,24 @@ bool ListaRegistroCentros::buscarID(int v)
     return false;
 }
 
+//WIPPPPPP
+string ListaRegistroCentros::randomIDCentro() {
+    int numeroElementos=this->contarElementosLista();
+    int numeroAleatorio = rand() % numeroElementos;
+    //int numeroElementos=3;
+    int contadorNodos = 0;
+    pnodo aux;
+    aux = cabeza;
+    //cout << numeroElementos << endl;
+    while(aux && contadorNodos < numeroAleatorio  ){
+        contadorNodos++;
+        aux = aux->siguiente;
+    }
+    //return aux->valor->IdCentro;
+    //cout << aux->valor->IdCentro << endl;
+    return aux->valor->CentroRef;
+}
+
 string ListaRegistroCentros::buscarIDRecuperarCentroRef(int v)
 {
     pnodo aux;
@@ -986,18 +1004,44 @@ string centrosPosibles[] = {  "Mostoles", "Alcala", "Leganes", "Fuenlabrada", "G
 
                         };
 
-string randomCentros (){
+string randomCentros (ListaRegistroCentros *listaCentros){
 
-    string centro = centrosPosibles[rand() % (sizeof(centrosPosibles) /sizeof(centrosPosibles[0])) ];
+    //string centro = centrosPosibles[rand() % (sizeof(centrosPosibles) /sizeof(centrosPosibles[0])) ];
+    string centro = listaCentros->randomIDCentro();
     return centro;
 
 }
 
+bool comprobarCentrosPosibles(ListaRegistroCentros *listaCentros){
+    int longitud = sizeof(centrosPosibles) / sizeof(centrosPosibles[0]);
+    for (int i = 0; i < longitud; ++i) {
+        //cout << centrosPosibles[i] << endl;
+        if (!listaCentros->buscarCentro(centrosPosibles[i])){
+            return true;
+        }
+    }
+    return false;
+}
+
 string randomCentrosNoRegistrado (ListaRegistroCentros *listaCentros){
     string centroAleatorio;
-    do {
-        centroAleatorio = centrosPosibles[rand() % (sizeof(centrosPosibles) /sizeof(centrosPosibles[0])) ];
+    if (comprobarCentrosPosibles(listaCentros)){
+        //cout << "HAY CENTROS POR DEFECTO SIN REGISTRAR ELIJO UNO" << endl;
+        do {
+            centroAleatorio = centrosPosibles[rand() % (sizeof(centrosPosibles) /sizeof(centrosPosibles[0])) ];
+        } while (listaCentros->buscarCentro(centroAleatorio));
+    }
+    else {
+        do {
+        //cin.ignore();
+        cout << "Por favor, ingrese un nombre de centro ya no hay disponibles por defecto: ";
+        getline(cin, centroAleatorio);
+        if (listaCentros->buscarCentro(centroAleatorio)) {
+            cout << "El nombre ingresado ya esta registrado. Intenta de nuevo." << endl;
+        }
     } while (listaCentros->buscarCentro(centroAleatorio));
+    }
+
     return centroAleatorio;
 }
 
@@ -1071,8 +1115,8 @@ int generarNumeroAleatorio() {
 void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros){
     for (int i=0; i< numSimulaciones; i++){
 
-        //BUG EN CASO DE QUE SE AÑADAN MANUALMENTE CENTROS
-        if (  (sizeof(centrosPosibles) /sizeof(centrosPosibles[0]))  > (listaCentros->contarElementosLista()) ){
+        //BUG EN CASO DE QUE SE AÑADAN MANUALMENTE CENTROS: SOlucionado comentado el if y modificando funcion randomCentrosNoRegistrado;
+        //if (  (sizeof(centrosPosibles) /sizeof(centrosPosibles[0]))  > (listaCentros->contarElementosLista()) ){
             //cout << " hay centro disponibles" << endl;
             //cout << (listaCentros->contarElementosLista()) << endl;
             //cout << randomCentros() << endl;
@@ -1099,10 +1143,10 @@ void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaC
             centro->IdCentro=centroReferenciaId;
             arbolDeCentros->Insertar(centro);
 
-        }
-        else {
-            cout << " NO hay centro disponibles" << endl;
-        }
+        //}
+        //else {
+         //   cout << " NO hay centro disponibles" << endl;
+        //}
     }
     cout << "Arbol vacio creado:\n" << endl;
 }
@@ -1313,7 +1357,7 @@ void simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, List
     for (int i=0; i< numSimulaciones; i++){
         Caja nuevaCaja;
         do{
-            nuevaCaja.CentroRef=randomCentros ();
+            nuevaCaja.CentroRef=randomCentros (listaCentros);
         } while (!arbolDeCentros->BuscarPorId(listaCentros->buscarCentroRefRecuperarID(nuevaCaja.CentroRef))); //Sacamos el ID del centro y confirmamos que existe en el arbol.
         nuevaCaja.IdCentro=listaCentros->buscarCentroRefRecuperarID(nuevaCaja.CentroRef);
         nuevaCaja.Contenido=randomProductos();
@@ -1343,13 +1387,13 @@ void actualizareEstadisitcas(Caja caja, RegistroCentros * centro, Estadistica *e
     }
     if  (caja.Id.substr(0, 3) == "GRE"){
             //estadistica->libiaDestino+=1;
-            centro->estadistica->libiaDestino+=1;
-            estadisticaTotal->libiaDestino+=1;
+            centro->estadistica->greciaDestino+=1;
+             estadisticaTotal->greciaDestino+=1;
     }
     if  (caja.Id.substr(0, 3) == "LIB"){
             //estadistica->greciaDestino+=1;
-            centro->estadistica->greciaDestino+=1;
-             estadisticaTotal->greciaDestino+=1;
+             centro->estadistica->libiaDestino+=1;
+            estadisticaTotal->libiaDestino+=1;
     }
     if  (caja.Id.back() == 'D'){
             //estadistica->daganzoOrigen+=1;

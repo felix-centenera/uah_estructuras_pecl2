@@ -49,6 +49,7 @@ int main(){
                 cin.ignore();
                 cout << "Opcion1" << endl;
                 crearCCmanual(listaCentros,arbolDeCentros);
+                break;
             case 2:
                 cout << "Opcion2" << endl;
                 borrarCC(listaCentros, arbolDeCentros);
@@ -72,7 +73,7 @@ int main(){
             case 7:
                     cout << "Opcion7" << endl;
                     //void ListaRegistroCentros::imprimirDatosEstadisticaMedianteRegistoDeLista(ArbolABB *arbolDeCentros)
-                    cout << "BUG" << endl;
+                    //cout << "BUG" << endl;
                     listaCentros->imprimirDatosEstadisticaMedianteRegistoDeLista(arbolDeCentros,estadisticaTotal);
                     break;
             case 8:
@@ -87,6 +88,7 @@ int main(){
             case 10:
                     cout << "Opcion10 for Debug" << endl;
                     listaCentros->imprimirDatosMedianteRegistoDeLista(arbolDeCentros);
+                    cout << listaCentros->randomIDCentro() << endl;
                     break;
             case 0:
                     cout << "Nos vemos. ;) " << endl ;
