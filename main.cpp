@@ -10,6 +10,7 @@ int main(){
     ListaRegistroCentros *listaCentros= new ListaRegistroCentros();
     ArbolABB *arbolDeCentros= new ArbolABB();
     Pila *pilaDeCajas = new Pila();
+    Estadistica *estadisticaTotal=new Estadistica();
 
     cout << "Creado el ABB con los siguientes 10 nodos:\n" << endl;
     simulacionCentroDeControl(N1, listaCentros, arbolDeCentros);
@@ -32,7 +33,7 @@ int main(){
 
     cout << "Cajas repartidas. Estado del arbol:\n" << endl;
 
-    repartirCajas(arbolDeCentros,listaCentros, pilaDeCajas );
+    repartirCajas(arbolDeCentros,listaCentros, pilaDeCajas,estadisticaTotal);
 
     listaCentros->imprimirDatosMedianteRegistoDeLista(arbolDeCentros);
 
@@ -70,6 +71,9 @@ int main(){
                     break;
             case 7:
                     cout << "Opcion7" << endl;
+                    //void ListaRegistroCentros::imprimirDatosEstadisticaMedianteRegistoDeLista(ArbolABB *arbolDeCentros)
+                    cout << "BUG" << endl;
+                    listaCentros->imprimirDatosEstadisticaMedianteRegistoDeLista(arbolDeCentros,estadisticaTotal);
                     break;
             case 8:
                     cout << "Opcion8" << endl;
@@ -78,7 +82,7 @@ int main(){
                     pilaDeCajas = invertirPila(pilaDeCajas);
                     pilaDeCajasCopia = invertirPila(pilaDeCajasCopia);
                     printDatosPilaCajas(pilaDeCajasCopia);
-                    repartirCajas(arbolDeCentros,listaCentros, pilaDeCajas );
+                    repartirCajas(arbolDeCentros,listaCentros, pilaDeCajas,estadisticaTotal );
                     break;
             case 10:
                     cout << "Opcion10 for Debug" << endl;

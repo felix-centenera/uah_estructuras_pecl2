@@ -16,7 +16,7 @@ ListaRegistroCentros::~ListaRegistroCentros()
 }
 
 
-void ListaRegistroCentros::insertarNodo(RegistroCentros v)
+void ListaRegistroCentros::insertarNodo(RegistroCentros * v)
 {
     pnodo aux;
     if (listaVacia())
@@ -38,12 +38,12 @@ void ListaRegistroCentros::borrarNodo(RegistroCentros v)
     pnodo
     anterior;
     actual = cabeza;
-    while (actual->valor.IdCentro != v.IdCentro && (actual->siguiente)!=NULL)
+    while (actual->valor->IdCentro != v.IdCentro && (actual->siguiente)!=NULL)
     {
         anterior=actual;
         actual=actual->siguiente;
     }
-    if (actual->valor.IdCentro == v.IdCentro){
+    if (actual->valor->IdCentro == v.IdCentro){
         if(actual==cabeza) // Primer elemento
             cabeza = actual->siguiente;
         else
@@ -61,12 +61,12 @@ void ListaRegistroCentros::borrarNodoPorRegistroID(int v)
     pnodo
     anterior;
     actual = cabeza;
-    while (actual->valor.IdCentro != v && (actual->siguiente)!=NULL)
+    while (actual->valor->IdCentro != v && (actual->siguiente)!=NULL)
     {
         anterior=actual;
         actual=actual->siguiente;
     }
-    if (actual->valor.IdCentro == v){
+    if (actual->valor->IdCentro == v){
         if(actual==cabeza) // Primer elemento
             cabeza = actual->siguiente;
         else
@@ -105,8 +105,9 @@ bool ListaRegistroCentros::esActual()
 {
     return actual != NULL;
 }
-RegistroCentros ListaRegistroCentros::valorActual()
+RegistroCentros* ListaRegistroCentros::valorActual()
 {
+
     return actual->valor;
 }
 
@@ -117,7 +118,7 @@ void ListaRegistroCentros::recorrerLista()
     aux = cabeza;
     while(aux)
     {
-        cout << aux->valor.IdCentro << "-> ";
+        cout << aux->valor->IdCentro << "-> ";
         aux = aux->siguiente;
     }
     cout << endl;
@@ -130,14 +131,43 @@ void ListaRegistroCentros::imprimirDatosMedianteRegistoDeLista(ArbolABB *arbolDe
     while(aux)
     {
         //cout << aux->valor.IdCentro << "-> ";
-        if (arbolDeCentros->BuscarPorId(aux->valor.IdCentro)){
+        if (arbolDeCentros->BuscarPorId(aux->valor->IdCentro)){
             //cout << aux->valor.IdCentro << "-> se encontro";
             //cout << "el id es yeah: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro).CentroRef << endl;
-            cout << "ID: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro)->IdCentro << "   Localidad:   " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro)->CentroRef << "  Num cajas:  " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro)->listaDeCajas.numeroDeElementos() << endl;
+            cout << "ID: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->IdCentro << "   Localidad:   " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->CentroRef << "  Num cajas:  " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->listaDeCajas.numeroDeElementos() << endl;
         }
         aux = aux->siguiente;
     }
     cout << endl;
+}
+
+void ListaRegistroCentros::imprimirDatosEstadisticaMedianteRegistoDeLista(ArbolABB *arbolDeCentros, Estadistica *estadisticaTota)
+{
+    pnodo aux;
+    aux = cabeza;
+    while(aux)
+    {
+        //cout << aux->valor.IdCentro << "-> ";
+        if (arbolDeCentros->BuscarPorId(aux->valor->IdCentro)){
+
+            //cout << aux->valor.IdCentro << "-> se encontro";
+            //cout << "el id es yeah: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro).CentroRef << endl;
+            //cout << "ID: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->IdCentro << "   Localidad:   " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->CentroRef << "  Num cajas:  " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->listaDeCajas.numeroDeElementos() << endl;
+            cout << "+------------------------+----------------+\n";
+            //cout << "|" << setw(5) << "ID:" <<aux->valor->IdCentro << setw(13) << "  LOCALIZACION:" << aux->valor->CentroRef  <<setw(12) << "|\n";
+            cout << "|" << setw(2) << "ID:" << setw(4) << aux->valor->IdCentro << setw(8) << "  LOCALIZACION:" << setw(9) << aux->valor->CentroRef << setw(12) << "|\n";
+
+            cout << "+------------------------+----------------+\n";
+           printEstadisticas(aux->valor->estadistica);
+
+        }
+        aux = aux->siguiente;
+    }
+    cout << endl;
+    cout << "+------------------------+----------------+\n";
+    cout << "|" << setw(2) << "ESTADISTICA TOTAL DE TODOS LOS CC:" << setw(10) << "|\n";
+    cout << "+------------------------+----------------+\n";
+    printEstadisticas(estadisticaTota);
 }
 /*
 Caja ListaRegistroCentros::buscarCajaMedianteRegistroDeCajas(string idCaja,ArbolABB *arbolDeCentros){
@@ -169,10 +199,10 @@ Caja ListaRegistroCentros::buscarCajaMedianteRegistroDeCajas(string idCaja,Arbol
     Caja caja;
     while(aux)
     {
-        if (arbolDeCentros->BuscarPorId(aux->valor.IdCentro)){
+        if (arbolDeCentros->BuscarPorId(aux->valor->IdCentro)){
             //Lista listaDeCajasParaBuscar;
             //listaDeCajasParaBuscar=
-            caja=arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro)->listaDeCajas.recorrerListaBuscandoCaja(idCaja);
+            caja=arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->listaDeCajas.recorrerListaBuscandoCaja(idCaja);
             if (caja.Id==idCaja){
                 return caja;
             }
@@ -192,7 +222,7 @@ bool ListaRegistroCentros::buscarID(int v)
     while(aux)
     {
         //cout << aux->valor.IdCentro << "-> ";
-        if (aux->valor.IdCentro == v){
+        if (aux->valor->IdCentro == v){
             return true;
         }
         aux = aux->siguiente;
@@ -208,8 +238,24 @@ string ListaRegistroCentros::buscarIDRecuperarCentroRef(int v)
     while(aux)
     {
         //cout << aux->valor.IdCentro << "-> ";
-        if (aux->valor.IdCentro == v){
-            return aux->valor.CentroRef;
+        if (aux->valor->IdCentro == v){
+            return aux->valor->CentroRef;
+        }
+        aux = aux->siguiente;
+    }
+    //cout << endl;
+}
+
+RegistroCentros * ListaRegistroCentros::buscarIDRecuperarCentroRefCompleto(int v)
+{
+    pnodo aux;
+    aux = cabeza;
+    while(aux)
+    {
+        //cout << aux->valor.IdCentro << "-> ";
+        if (aux->valor->IdCentro == v){
+            //return aux->valor->CentroRef;
+            return aux->valor;
         }
         aux = aux->siguiente;
     }
@@ -223,7 +269,7 @@ bool ListaRegistroCentros::buscarCentro(string v)
     while(aux)
     {
         //cout << aux->valor.IdCentro << "-> ";
-        if (aux->valor.CentroRef == v){
+        if (aux->valor->CentroRef == v){
             return true;
         }
         aux = aux->siguiente;
@@ -239,14 +285,28 @@ int ListaRegistroCentros::buscarCentroRefRecuperarID(string v)
     while(aux)
     {
         //cout << aux->valor.IdCentro << "-> ";
-        if (aux->valor.CentroRef == v){
-            return aux->valor.IdCentro;
+        if (aux->valor->CentroRef == v){
+            return aux->valor->IdCentro;
         }
         aux = aux->siguiente;
     }
     //cout << endl;
 }
 
+Estadistica* ListaRegistroCentros::buscarCentroRefRecuperarEstadistica(int v)
+{
+    pnodo aux;
+    aux = cabeza;
+    while(aux)
+    {
+        //cout << aux->valor.IdCentro << "-> ";
+        if (aux->valor->IdCentro == v){
+            return aux->valor->estadistica;
+        }
+        aux = aux->siguiente;
+    }
+    //cout << endl;
+}
 
 
 int ListaRegistroCentros::contarElementosLista()
@@ -1016,11 +1076,13 @@ void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaC
             //cout << " hay centro disponibles" << endl;
             //cout << (listaCentros->contarElementosLista()) << endl;
             //cout << randomCentros() << endl;
-            RegistroCentros centroRegistro;
+            //RegistroCentros centroRegistro;
+            RegistroCentros *centroRegistro= new  RegistroCentros();
             string centroReferencia=randomCentrosNoRegistrado (listaCentros);
             int centroReferenciaId=generarNumeroRandomNoRegistrado (listaCentros);
-            centroRegistro.CentroRef=centroReferencia;
-            centroRegistro.IdCentro=centroReferenciaId;
+            centroRegistro->CentroRef=centroReferencia;
+            centroRegistro->IdCentro=centroReferenciaId;
+            centroRegistro->estadistica= new Estadistica;
             listaCentros->insertarNodo(centroRegistro);
 
             // antes de borrar debug
@@ -1074,9 +1136,11 @@ void crearCCmanual(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros)
         }
     } while (listaCentros->buscarCentro(centroReferencia));
 
-    RegistroCentros centroRegistro;
-    centroRegistro.CentroRef=centroReferencia;
-    centroRegistro.IdCentro=centroReferenciaId;
+    //RegistroCentros centroRegistro;
+    RegistroCentros *centroRegistro= new  RegistroCentros();
+    centroRegistro->CentroRef=centroReferencia;
+    centroRegistro->IdCentro=centroReferenciaId;
+    centroRegistro->estadistica= new Estadistica;
     listaCentros->insertarNodo(centroRegistro);
 
     CentroClasificacion *centro= new CentroClasificacion();
@@ -1233,6 +1297,8 @@ void buscarCajaPorIDyMoverlaCC(ListaRegistroCentros *listaCentros, ArbolABB *arb
 
 //OPCION 7 TO_DO
 
+
+
 //OPCION 8 en main.
 
 
@@ -1268,8 +1334,142 @@ void simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, List
 
 }
 
+void actualizareEstadisitcas(Caja caja, RegistroCentros * centro, Estadistica *estadisticaTotal){
+    if  (caja.Id.substr(0, 3) == "MAR"){
+            //centro->estadistica->aceite=1;
+            centro->estadistica->marruecosDestino+=1;
+            estadisticaTotal->marruecosDestino+=1;
 
-void repartirCajas(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas ) {
+    }
+    if  (caja.Id.substr(0, 3) == "GRE"){
+            //estadistica->libiaDestino+=1;
+            centro->estadistica->libiaDestino+=1;
+            estadisticaTotal->libiaDestino+=1;
+    }
+    if  (caja.Id.substr(0, 3) == "LIB"){
+            //estadistica->greciaDestino+=1;
+            centro->estadistica->greciaDestino+=1;
+             estadisticaTotal->greciaDestino+=1;
+    }
+    if  (caja.Id.back() == 'D'){
+            //estadistica->daganzoOrigen+=1;
+            centro->estadistica->daganzoOrigen+=1;
+             estadisticaTotal->daganzoOrigen+=1;
+    }
+    if  (caja.Id.back() == 'M'){
+            //estadistica->mecoOrigen+=1;
+            centro->estadistica->mecoOrigen+=1;
+             estadisticaTotal->mecoOrigen+=1;
+    }
+    if  (caja.Id.back() == 'L'){
+            //estadistica->loechesOrigen+=1;
+            centro->estadistica->loechesOrigen+=1;
+             estadisticaTotal->loechesOrigen+=1;
+    }
+    if  (caja.Id.back() == 'T'){
+            //estadistica->torrejonOrigen+=1;
+            centro->estadistica->torrejonOrigen+=1;
+            estadisticaTotal->torrejonOrigen+=1;
+    }
+    if  (caja.Contenido == "harina"){
+            //estadistica->harina+=1;
+            centro->estadistica->harina+=1;
+            estadisticaTotal->harina+=1;
+    }
+    if  (caja.Contenido == "pasta"){
+            //estadistica->pasta+=1;
+            centro->estadistica->pasta+=1;
+            estadisticaTotal->pasta+=1;
+    }
+    if  (caja.Contenido == "legumbres"){
+            //estadistica->legumbres+=1;
+            centro->estadistica->legumbres+=1;
+            estadisticaTotal->legumbres+=1;
+    }
+    if  (caja.Contenido == "leche"){
+            //estadistica->leche+=1;
+            centro->estadistica->leche+=1;
+            estadisticaTotal->leche+=1;
+    }
+    if  (caja.Contenido == "medicinas"){
+            //estadistica->medicinas+=1;
+            centro->estadistica->medicinas+=1;
+             estadisticaTotal->medicinas+=1;
+    }
+    if  (caja.Contenido == "higiene"){
+            //estadistica->higiene+=1;
+            centro->estadistica->higiene+=1;
+             estadisticaTotal->higiene+=1;
+    }
+    if  (caja.Contenido == "agua"){
+            //estadistica->agua+=1;
+            centro->estadistica->agua+=1;
+             estadisticaTotal->agua+=1;
+    }
+    if  (caja.Contenido == "aceite"){
+            //estadistica->aceite+=1;
+            centro->estadistica->aceite+=1;
+             estadisticaTotal->aceite+=1;
+    }
+    if  (caja.Contenido == "sal"){
+            //estadistica->sal+=1;
+            centro->estadistica->sal+=1;
+            estadisticaTotal->sal+=1;
+    }
+    if  (caja.Contenido == "azucar"){
+            //estadistica->azucar+=1;
+            centro->estadistica->azucar+=1;
+            estadisticaTotal->azucar+=1;
+    }
+    if  (caja.Contenido == "galletas"){
+            //estadistica->galletas+=1;
+            centro->estadistica->galletas+=1;
+            estadisticaTotal->galletas+=1;
+    }
+    if  (caja.Contenido == "latas_cons"){
+            //estadistica->latas_cons+=1;
+            centro->estadistica->latas_cons+=1;
+            estadisticaTotal->latas_cons+=1;
+    }
+    if  (caja.Contenido == "iluminacion"){
+            //estadistica->iluminacion+=1;
+            centro->estadistica->iluminacion+=1;
+            estadisticaTotal->iluminacion+=1;
+    }
+    if  (caja.Contenido == "herramientas"){
+            //estadistica->herramientas+=1;
+            centro->estadistica->herramientas+=1;
+            estadisticaTotal->herramientas+=1;
+    }
+    if  (caja.Contenido == "combustible"){
+            //estadistica->combustible+=1;
+            centro->estadistica->combustible+=1;
+            estadisticaTotal->combustible+=1;
+    }
+    if  (caja.Contenido == "tiendas_camp"){
+            //estadistica->tiendas_camp+=1;
+            centro->estadistica->tiendas_camp+=1;
+            estadisticaTotal->tiendas_camp+=1;
+    }
+    if  (caja.Contenido == "ropa"){
+            //estadistica->ropa+=1;
+            centro->estadistica->ropa+=1;
+            estadisticaTotal->ropa+=1;
+    }
+    if  (caja.Contenido == "mantas"){
+            //estadistica->mantas+=1;
+            centro->estadistica->mantas+=1;
+            estadisticaTotal->mantas+=1;
+    }
+    if  (caja.Contenido == "limpieza"){
+            //estadistica->limpieza+=1;
+            centro->estadistica->limpieza+=1;
+            estadisticaTotal->limpieza+=1;
+    }
+ }
+
+
+void repartirCajas(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas, Estadistica *estadisticaTotal) {
     //cout << listaCentros->valorActual().estadistica.aceite << endl;
 
     while (!pilaDeCajas->vacia()){
@@ -1279,9 +1479,39 @@ void repartirCajas(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,
 
         //CentroClasificacion centro2=arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro);
         //cout << arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro)->listaDeCajas.numeroDeElementos() << endl;
-        arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro)->listaDeCajas.insertarNodo(pilaDeCajas->desapilar());
-        //cout << arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro)->listaDeCajas.numeroDeElementos() << endl;
 
+        //listaCentros->buscarCentroRefRecuperarEstadistica(pilaDeCajas->mostrarCima().IdCentro).greciaDestino="hola";
+
+        //WIP
+        //Estadistica estadistica = listaCentros->buscarCentroRefRecuperarEstadistica(pilaDeCajas->mostrarCima().IdCentro);
+        //estadistica.greciaDestino=10;
+        //estadistica.aceite=20;
+
+        //listaCentros->buscarCentroRefRecuperarEstadistica(pilaDeCajas->mostrarCima().IdCentro)->aceite=1;
+
+        //WIP   ListaRegistroCentros *listaCentros= new ListaRegistroCentros();
+
+        Caja caja= pilaDeCajas->mostrarCima();
+        //listaCentros->
+
+        //actualizareEstadisitcas(caja,listaCentros->buscarCentroRefRecuperarEstadistica(pilaDeCajas->mostrarCima().IdCentro));
+
+        //actualizareEstadisitcas(caja,listaCentros->buscarIDRecuperarCentroRefCompleto(caja.IdCentro));
+        //cout << listaCentros->buscarIDRecuperarCentroRefCompleto(caja.IdCentro)->estadistica->aceite;
+        //cout << listaCentros->buscarIDRecuperarCentroRefCompleto(caja.IdCentro)->estadistica->aceite;
+        //estadisticaTotal
+        actualizareEstadisitcas(caja,listaCentros->buscarIDRecuperarCentroRefCompleto(caja.IdCentro),estadisticaTotal);
+
+
+
+
+
+        arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro)->listaDeCajas.insertarNodo(pilaDeCajas->desapilar());
+        //actualizareEstadisitcas(caja,listaCentros->buscarCentroRefRecuperarEstadistica(caja.IdCentro));
+        //WIP
+
+        //WIP
+        //cout << arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro)->listaDeCajas.numeroDeElementos() << endl;
     }
 }
 
@@ -1339,5 +1569,79 @@ for (int i=0; i < numCajas; i++) {
 cout << "----------------------------------------------------------------------" << endl;
 cout << "\n" ;
 cout << "\n" ;
+}
+
+void printEstadisticas(Estadistica* estadistica){
+
+    cout << "+------------------------+----------------+\n";
+    cout << "|       Destino          |      Cantidad  |\n";
+    cout << "+------------------------+----------------+\n";
+    cout << "| Marruecos              | " << setw(14) << estadistica->marruecosDestino << " |\n";
+    cout << "| Libia                  | " << setw(14) << estadistica->libiaDestino << " |\n";
+    cout << "| Grecia                 | " << setw(14) << estadistica->greciaDestino << " |\n";
+    cout << "+------------------------+----------------+\n";
+    cout << "| Origen                 |      Cantidad  |\n";
+    cout << "+------------------------+----------------+\n";
+    cout << "| Daganzo                | " << setw(14) << estadistica->daganzoOrigen << " |\n";
+    cout << "| Meco                   | " << setw(14) << estadistica->mecoOrigen << " |\n";
+    cout << "| Loeches                | " << setw(14) << estadistica->loechesOrigen << " |\n";
+    cout << "| Torrejon               | " << setw(14) << estadistica->torrejonOrigen << " |\n";
+    cout << "+------------------------+----------------+\n";
+    cout << "| Productos              |      Cantidad  |\n";
+    cout << "+------------------------+----------------+\n";
+    cout << "| Harina                 | " << setw(14) << estadistica->harina << " |\n";
+    cout << "| Pasta                  | " << setw(14) << estadistica->pasta << " |\n";
+    cout << "| Galletas               | " << setw(14) << estadistica->galletas << " |\n";
+    cout << "| Legumbres              | " << setw(14) << estadistica->legumbres << " |\n";
+    cout << "| Leche                  | " << setw(14) << estadistica->leche << " |\n";
+    cout << "| medicinas              | " << setw(14) << estadistica->medicinas << " |\n";
+    cout << "| higiene                | " << setw(14) << estadistica->higiene << " |\n";
+    cout << "| agua                   | " << setw(14) << estadistica->agua << " |\n";
+    cout << "| aceite                 | " << setw(14) << estadistica->aceite << " |\n";
+    cout << "| sal                    | " << setw(14) << estadistica->sal << " |\n";
+    cout << "| azucar                 | " << setw(14) << estadistica->azucar << " |\n";
+    cout << "| galletas               | " << setw(14) << estadistica->galletas << " |\n";
+    cout << "| latas_cons             | " << setw(14) << estadistica->latas_cons << " |\n";
+    cout << "| iluminacion            | " << setw(14) << estadistica->iluminacion << " |\n";
+    cout << "| herramientas           | " << setw(14) << estadistica->herramientas << " |\n";
+    cout << "| combustible            | " << setw(14) << estadistica->combustible << " |\n";
+    cout << "| tiendas_camp           | " << setw(14) << estadistica->tiendas_camp << " |\n";
+    cout << "| ropa                   | " << setw(14) << estadistica->ropa << " |\n";
+    cout << "| mantas                 | " << setw(14) << estadistica->mantas << " |\n";
+    cout << "| limpieza               | " << setw(14) << estadistica->limpieza << " |\n";
+    cout << "+------------------------+----------------+\n";
+    cout << "\n" ;
+
+    int max_valor_pais = max({estadistica->marruecosDestino, estadistica->libiaDestino, estadistica->greciaDestino});
+     if (max_valor_pais == 0 ){
+            cout << "Aun no tenemos datos suficientes." << endl;
+     }
+     else if (max_valor_pais == (estadistica->marruecosDestino) ){
+            cout << "La gente esta siendo mas solidaria con la poblacion de  Marruecos." << endl;
+     }
+     else if (max_valor_pais == (estadistica->libiaDestino) ){
+            cout << "La gente esta siendo mas solidaria con la poblacion de  Libia." << endl;
+     }
+     else{
+            cout << "La gente esta siendo mas solidaria con la poblacion de  Grecia." << endl;
+     }
+
+     int max_valor_origen = max({estadistica->daganzoOrigen, estadistica->mecoOrigen, estadistica->loechesOrigen, estadistica->torrejonOrigen});
+     if (max_valor_origen == 0 ){
+            cout << "Aun no tenemos datos suficientes." << endl;
+     }
+     else if (max_valor_origen == (estadistica->daganzoOrigen) ){
+            cout << "La poblacion mas solidaria es Danzo." << endl;
+     }
+     else if (max_valor_origen == (estadistica->mecoOrigen) ){
+            cout << "La poblacion mas solidaria es Meco." << endl;
+     }
+     else if (max_valor_origen == (estadistica->loechesOrigen) ){
+            cout << "La poblacion mas solidaria es Loeche." << endl;
+     }
+     else{
+            cout << "La poblacion mas solidaria es Torrejon." << endl;
+     }
+     cout << "\n" ;
 }
 

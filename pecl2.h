@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 #define N1 10 //Numero de centrales de clasificación.
 #define N2 30 // Numero de cajas aleatorias
 
@@ -24,32 +25,32 @@ struct Caja
 
 struct Estadistica
 {
-    int marruecosDestino;
-    int libiaDestino;
-    int greciaDestino;
-    int daganzoOrigen;
-    int mecoOrigen;
-    int loechesOrigen;
-    int torrejonOrigen;
-    int harina;
-    int pasta;
-    int galletas;
-    int legumbres;
-    int leche;
-    int medicinas;
-    int higiene;
-    int agua;
-    int aceite;
-    int sal;
-    int azucar;
-    int latas_cons;
-    int iluminacion;
-    int herramientas;
-    int combustible;
-    int tiendas_camp;
-    int ropa;
-    int mantas;
-    int limpieza;
+    int marruecosDestino=0;
+    int libiaDestino=0;
+    int greciaDestino=0;
+    int daganzoOrigen=0;
+    int mecoOrigen=0;
+    int loechesOrigen=0;
+    int torrejonOrigen=0;
+    int harina=0;
+    int pasta=0;
+    int galletas=0;
+    int legumbres=0;
+    int leche=0;
+    int medicinas=0;
+    int higiene=0;
+    int agua=0;
+    int aceite=0;
+    int sal=0;
+    int azucar=0;
+    int latas_cons=0;
+    int iluminacion=0;
+    int herramientas=0;
+    int combustible=0;
+    int tiendas_camp=0;
+    int ropa=0;
+    int mantas=0;
+    int limpieza=0;
 };
 
 
@@ -58,7 +59,7 @@ struct RegistroCentros
 {
     int IdCentro;
     string CentroRef;
-    Estadistica estadistica;
+    Estadistica *estadistica;
 };
 
 
@@ -220,11 +221,11 @@ class ArbolABB
 class NodoRegistroCentro
 {
 private:
-    RegistroCentros valor;
+    RegistroCentros * valor;
     NodoRegistroCentro *siguiente;
     friend class ListaRegistroCentros;
 public:
-    NodoRegistroCentro(RegistroCentros v, NodoRegistroCentro *sig = NULL)
+    NodoRegistroCentro(RegistroCentros * v, NodoRegistroCentro *sig = NULL)
     {
         valor = v;
         siguiente = sig;
@@ -242,7 +243,7 @@ public:
         cabeza = actual = final = NULL;
     }
     ~ListaRegistroCentros();
-    void insertarNodo(RegistroCentros v);
+    void insertarNodo(RegistroCentros * v);
     void borrarNodo(RegistroCentros v);
     void borrarNodoPorRegistroID(int v);
     bool listaVacia();
@@ -250,7 +251,7 @@ public:
     void esFinal();
     void esSiguiente();
     bool esActual();
-    RegistroCentros valorActual();
+    RegistroCentros *valorActual();
     void recorrerLista();
     void imprimirDatosMedianteRegistoDeLista(ArbolABB *arbolDeCentros);
     int contarElementosLista();
@@ -259,6 +260,9 @@ public:
     string buscarIDRecuperarCentroRef(int v);
     int buscarCentroRefRecuperarID(string v);
     Caja buscarCajaMedianteRegistroDeCajas(string idCaja,ArbolABB *arbolDeCentros);
+    RegistroCentros * buscarIDRecuperarCentroRefCompleto(int v);
+    Estadistica *buscarCentroRefRecuperarEstadistica(int v);
+    void imprimirDatosEstadisticaMedianteRegistoDeLista(ArbolABB *arbolDeCentros,Estadistica *estadisticaTotal);
 };
 
 
@@ -273,7 +277,7 @@ void  estadoCentrosArbol(ArbolABB *arbolDeCentros);
 
 void simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas );
 void printDatosPilaCajas(Pila* pilaDeCajas);
-void repartirCajas(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas );
+void repartirCajas(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas,Estadistica *estadisticaTotal);
 void printMenu(int &opcion);
 void crearCCmanual(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
 void borrarCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
@@ -281,4 +285,9 @@ void mostrarDatosCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros
 void buscarCajaPorID(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
 void buscarCajaPorIDyBorrar(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
 void buscarCajaPorIDyMoverlaCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
+//void actualizareEstadisitcas(Caja caja, CentroClasificacion * centroClasificacion);
+//void actualizareEstadisitcas(Caja caja, Estadistica * estadistica);
+//void actualizareEstadisitcas(Caja caja, RegistroCentros * centro);
+void actualizareEstadisitcas(Caja caja, RegistroCentros * centro,Estadistica *estadisticaTotal);
+void printEstadisticas(Estadistica* estadistica);
 #endif // PECL2_H_INCLUDED
