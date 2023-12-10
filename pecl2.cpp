@@ -1114,9 +1114,10 @@ void borrarCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
 void mostrarDatosCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
 
     int centroReferenciaId;
-    cout << "Introduzca ID del Centro de Clasificacion que desea buscar: ";
-    cout << "Listado de intentificadores de CC disponibles: ";
+    cout << "Listado de intentificadores de CC disponibles: " << endl;
     arbolDeCentros->InOrden(Mostrar);
+    cout << "\n";
+    cout << "Introduzca ID del Centro de Clasificacion que desea buscar: ";
     cin >> centroReferenciaId;
 
     if (!listaCentros->buscarID(centroReferenciaId) ) {
@@ -1145,7 +1146,7 @@ void mostrarDatosCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros
 void buscarCajaPorID(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
     string idCaja;
     cin.ignore();
-    cout << "Introduzca ID de la caja que desea buscar: ";
+    cout << "Introduzca ID de la caja que desea buscar: " << endl;
     getline(cin, idCaja);
     Caja caja;
     caja=listaCentros->buscarCajaMedianteRegistroDeCajas(idCaja,arbolDeCentros);
@@ -1164,11 +1165,11 @@ void buscarCajaPorID(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentro
 }
 
 
-//OPCION 5 menu TOQA
+//OPCION 5 menu
 void buscarCajaPorIDyBorrar(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
     string idCaja;
     cin.ignore();
-    cout << "Introduzca ID de la caja que desea borrar: ";
+    cout << "Introduzca ID de la caja que desea borrar: " << endl;
     getline(cin, idCaja);
     Caja caja;
     caja=listaCentros->buscarCajaMedianteRegistroDeCajas(idCaja,arbolDeCentros);
@@ -1189,6 +1190,52 @@ void buscarCajaPorIDyBorrar(ListaRegistroCentros *listaCentros, ArbolABB *arbolD
         //arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro)->listaDeCajas->borrarNodoPorCajaID(caja.Id);
     }
 }
+
+
+//OPCION 6
+void buscarCajaPorIDyMoverlaCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
+    int centroReferenciaId;
+    string idCaja;
+    cout << "Listado de intentificadores de CC disponibles: " << endl;
+    arbolDeCentros->InOrden(Mostrar);
+    cout << "\n";
+    cout << "Introduzca ID del Centro de Clasificacion al que desea mover la caja: ";
+    cin >> centroReferenciaId;
+
+    if (listaCentros->buscarID(centroReferenciaId) ) {
+            cout << "El numero ingresado  esta registrado." << endl;
+            cout << "Introduzca ID de la caja que desea mover: ";
+            cin.ignore();
+            getline(cin, idCaja);
+            Caja caja;
+        caja=listaCentros->buscarCajaMedianteRegistroDeCajas(idCaja,arbolDeCentros);
+        if (caja.Id=="CajaNoEncontrada"){
+            cout << "La caja no fue encontrar" << endl;
+        }
+        else{
+            cout << "La caja fue encontrada y se movera desde el centro" << caja.IdCentro  << "al" <<centroReferenciaId <<endl;
+            CentroClasificacion* centroEncontrado = arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro);
+            centroEncontrado->listaDeCajas.borrarNodoPorCajaID(caja.Id);
+            caja.IdCentro=centroReferenciaId;
+            caja.CentroRef=listaCentros->buscarIDRecuperarCentroRef(centroReferenciaId);
+            arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro)->listaDeCajas.insertarNodo(caja);
+
+            //arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro).listaDeCajas->borrarNodoPorCajaID(caja.Id);
+            //CentroClasificacion* centroEncontrado = arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro);
+            //centroEncontrado->listaDeCajas.borrarNodoPorCajaID(caja.Id);
+            //arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro)->listaDeCajas->borrarNodoPorCajaID(caja.Id);
+        }
+    }
+    else{
+        cout << "El numero ingresado no esta registrado." << endl;
+    }
+}
+
+//OPCION 7 TO_DO
+
+//OPCION 8 en main.
+
+
 
 //void  estadoCentrosArbol(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros){
     //listaCentros.recorrerLista

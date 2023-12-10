@@ -66,12 +66,22 @@ int main(){
                     break;
             case 6:
                     cout << "Opcion6" << endl;
+                    buscarCajaPorIDyMoverlaCC(listaCentros, arbolDeCentros);
                     break;
             case 7:
                     cout << "Opcion7" << endl;
                     break;
             case 8:
                     cout << "Opcion8" << endl;
+                    simulacionCreacionCajas(N2,arbolDeCentros,listaCentros,pilaDeCajas);
+                    pilaDeCajasCopia = copiarPila(pilaDeCajas);
+                    pilaDeCajas = invertirPila(pilaDeCajas);
+                    pilaDeCajasCopia = invertirPila(pilaDeCajasCopia);
+                    printDatosPilaCajas(pilaDeCajasCopia);
+                    repartirCajas(arbolDeCentros,listaCentros, pilaDeCajas );
+                    break;
+            case 10:
+                    cout << "Opcion10 for Debug" << endl;
                     listaCentros->imprimirDatosMedianteRegistoDeLista(arbolDeCentros);
                     break;
             case 0:
