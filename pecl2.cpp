@@ -132,7 +132,9 @@ void ListaRegistroCentros::imprimirDatosMedianteRegistoDeLista(ArbolABB *arbolDe
         if (arbolDeCentros->BuscarPorId(aux->valor->IdCentro)){
             //cout << aux->valor.IdCentro << "-> se encontro";
             //cout << "el id es yeah: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro).CentroRef << endl;
-            cout << "ID: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->IdCentro << "   Localidad:   " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->CentroRef << "  Num cajas:  " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->listaDeCajas.numeroDeElementos() << endl;
+            //cout << "ID: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->IdCentro << "   Localidad:   " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->CentroRef << "  Num cajas:  " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->listaDeCajas.numeroDeElementos() << endl;
+            cout << "ID: " << setw(4) << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->IdCentro << setw(8) << "   Localidad:   "  << setw(12) << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->CentroRef << setw(16) << "  Num cajas:  " << setw(2) << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->listaDeCajas.numeroDeElementos() << endl;
+
         }
         aux = aux->siguiente;
     }
