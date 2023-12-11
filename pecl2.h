@@ -25,6 +25,7 @@ struct Caja
     int FechaRecogida;
 };
 
+// STRUCT Estadistica:
 struct Estadistica
 {
     int marruecosDestino=0;
@@ -65,7 +66,7 @@ struct RegistroCentros
 };
 
 
-//----------PILA
+//----------------------------------------------PILA---------------------------------------------------//
 class NodoPila
 {
 private:
@@ -99,7 +100,7 @@ Pila *copiarPila(Pila *pilaOriginal);
 Pila* invertirPila(Pila* pilaOriginal);
 
 
-// ----------------------------------------------- LISTA Cajas -----------------------------------------------
+//----------------------------------------------LISTA-Cajas---------------------------------------------------//
 
 class Nodo
 {
@@ -152,8 +153,7 @@ struct CentroClasificacion
 
 
 
-// ----------------------------------------------- Arbol de CentrosClasificación -----------------------------------------------
-
+//----------------------------------------------Arbol-De-CentrosClasificación---------------------------------------------------//
 
 class NodoArbol
 {
@@ -218,7 +218,7 @@ class ArbolABB
         void auxAltura(NodoArbol*, int);
 };
 
-// ----------------------------------------------- LISTA RegistoCentros -----------------------------------------------
+//----------------------------------------------Lista-RegistroCentros---------------------------------------------------//
 
 class NodoRegistroCentro
 {
@@ -269,15 +269,13 @@ public:
 };
 
 
+
+//----------------------------------------------Funciones-transversales---------------------------------------------------//
 void Mostrar(int&);
 void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
 int generarNumeroRandom();
 string randomCentrosNoRegistrado (ListaRegistroCentros *listaCentros);
 void  estadoCentrosArbol(ArbolABB *arbolDeCentros);
-
-
-
-
 void simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas );
 void printDatosPilaCajas(Pila* pilaDeCajas);
 void repartirCajas(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas,Estadistica *estadisticaTotal);
@@ -288,9 +286,12 @@ void mostrarDatosCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros
 void buscarCajaPorID(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
 void buscarCajaPorIDyBorrar(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
 void buscarCajaPorIDyMoverlaCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
+void actualizareEstadisitcas(Caja caja, RegistroCentros * centro,Estadistica *estadisticaTotal);
+void printEstadisticas(Estadistica* estadistica);
+
+//OLD FUNCTION:
 //void actualizareEstadisitcas(Caja caja, CentroClasificacion * centroClasificacion);
 //void actualizareEstadisitcas(Caja caja, Estadistica * estadistica);
 //void actualizareEstadisitcas(Caja caja, RegistroCentros * centro);
-void actualizareEstadisitcas(Caja caja, RegistroCentros * centro,Estadistica *estadisticaTotal);
-void printEstadisticas(Estadistica* estadistica);
+
 #endif // PECL2_H_INCLUDED

@@ -1,8 +1,7 @@
 #include "pecl2.h"
 
 
-
-// ----------------------------------------------- LISTA RegistoCentros -----------------------------------------------
+//----------------------------------------------Lista Registro-Centros---------------------------------------------------//
 ListaRegistroCentros::~ListaRegistroCentros()
 {
     pnodo aux;
@@ -14,7 +13,6 @@ ListaRegistroCentros::~ListaRegistroCentros()
     }
     actual = NULL;
 }
-
 
 void ListaRegistroCentros::insertarNodo(RegistroCentros * v)
 {
@@ -31,7 +29,6 @@ void ListaRegistroCentros::insertarNodo(RegistroCentros * v)
         final=aux;
     }
 }
-
 
 void ListaRegistroCentros::borrarNodo(RegistroCentros v)
 {
@@ -53,7 +50,7 @@ void ListaRegistroCentros::borrarNodo(RegistroCentros v)
         }
         actual->siguiente=NULL;
         delete actual;
-}
+    }
 }
 
 void ListaRegistroCentros::borrarNodoPorRegistroID(int v)
@@ -76,18 +73,19 @@ void ListaRegistroCentros::borrarNodoPorRegistroID(int v)
         }
         actual->siguiente=NULL;
         delete actual;
+    }
 }
-}
-
 
 bool ListaRegistroCentros::listaVacia()
 {
     return cabeza == NULL;
 }
+
 void ListaRegistroCentros::esCabeza()
 {
     actual = cabeza;
 }
+
 void ListaRegistroCentros::esFinal()
 {
     esCabeza();
@@ -96,21 +94,21 @@ void ListaRegistroCentros::esFinal()
             esSiguiente();
 }
 
-
 void ListaRegistroCentros::esSiguiente()
 {
     if(actual) actual = actual->siguiente;
 }
+
 bool ListaRegistroCentros::esActual()
 {
     return actual != NULL;
 }
+
 RegistroCentros* ListaRegistroCentros::valorActual()
 {
 
     return actual->valor;
 }
-
 
 void ListaRegistroCentros::recorrerLista()
 {
@@ -147,19 +145,11 @@ void ListaRegistroCentros::imprimirDatosEstadisticaMedianteRegistoDeLista(ArbolA
     aux = cabeza;
     while(aux)
     {
-        //cout << aux->valor.IdCentro << "-> ";
         if (arbolDeCentros->BuscarPorId(aux->valor->IdCentro)){
-
-            //cout << aux->valor.IdCentro << "-> se encontro";
-            //cout << "el id es yeah: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro).CentroRef << endl;
-            //cout << "ID: " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->IdCentro << "   Localidad:   " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->CentroRef << "  Num cajas:  " << arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor->IdCentro)->listaDeCajas.numeroDeElementos() << endl;
             cout << "+------------------------+----------------+\n";
-            //cout << "|" << setw(5) << "ID:" <<aux->valor->IdCentro << setw(13) << "  LOCALIZACION:" << aux->valor->CentroRef  <<setw(12) << "|\n";
             cout << "|" << setw(2) << "ID:" << setw(4) << aux->valor->IdCentro << setw(8) << "  LOCALIZACION:" << setw(9) << aux->valor->CentroRef << setw(12) << "|\n";
-
             cout << "+------------------------+----------------+\n";
            printEstadisticas(aux->valor->estadistica);
-
         }
         aux = aux->siguiente;
     }
@@ -169,29 +159,6 @@ void ListaRegistroCentros::imprimirDatosEstadisticaMedianteRegistoDeLista(ArbolA
     cout << "+------------------------+----------------+\n";
     printEstadisticas(estadisticaTota);
 }
-/*
-Caja ListaRegistroCentros::buscarCajaMedianteRegistroDeCajas(string idCaja,ArbolABB *arbolDeCentros){
-    pnodo aux;
-    aux = cabeza;
-    while(aux)
-    {
-        if (arbolDeCentros->BuscarPorId(aux->valor.IdCentro)){
-            Pila *pilaDeCajas = new Pila();
-            pilaDeCajas=arbolDeCentros->BuscarPorIdRecuperarCC(aux->valor.IdCentro)->listaDeCajas.recorrerListaCajas(pilaDeCajas);
-            while(!pilaDeCajas->vacia()) {
-                    if (idCaja==pilaDeCajas->mostrarCima().Id){
-                        return pilaDeCajas->desapilar();
-                    }
-                    pilaDeCajas->desapilar();
-            }
-        }
-        aux = aux->siguiente;
-    }
-    Caja cajaNoEncontrada;
-    cajaNoEncontrada.Id = "CajaNoEncontrada";
-    return cajaNoEncontrada;
-}
-*/
 
 Caja ListaRegistroCentros::buscarCajaMedianteRegistroDeCajas(string idCaja,ArbolABB *arbolDeCentros){
     pnodo aux;
@@ -212,7 +179,6 @@ Caja ListaRegistroCentros::buscarCajaMedianteRegistroDeCajas(string idCaja,Arbol
     if (caja.Id=="CajaNoEncontrada"){
                 return caja;
             }
-
 }
 
 bool ListaRegistroCentros::buscarID(int v)
@@ -231,7 +197,6 @@ bool ListaRegistroCentros::buscarID(int v)
     return false;
 }
 
-//WIPPPPPP
 string ListaRegistroCentros::randomIDCentro() {
     int numeroElementos=this->contarElementosLista();
     int numeroAleatorio = rand() % numeroElementos;
@@ -255,13 +220,11 @@ string ListaRegistroCentros::buscarIDRecuperarCentroRef(int v)
     aux = cabeza;
     while(aux)
     {
-        //cout << aux->valor.IdCentro << "-> ";
         if (aux->valor->IdCentro == v){
             return aux->valor->CentroRef;
         }
         aux = aux->siguiente;
     }
-    //cout << endl;
 }
 
 RegistroCentros * ListaRegistroCentros::buscarIDRecuperarCentroRefCompleto(int v)
@@ -270,14 +233,11 @@ RegistroCentros * ListaRegistroCentros::buscarIDRecuperarCentroRefCompleto(int v
     aux = cabeza;
     while(aux)
     {
-        //cout << aux->valor.IdCentro << "-> ";
         if (aux->valor->IdCentro == v){
-            //return aux->valor->CentroRef;
             return aux->valor;
         }
         aux = aux->siguiente;
     }
-    //cout << endl;
 }
 
 bool ListaRegistroCentros::buscarCentro(string v)
@@ -286,13 +246,11 @@ bool ListaRegistroCentros::buscarCentro(string v)
     aux = cabeza;
     while(aux)
     {
-        //cout << aux->valor.IdCentro << "-> ";
         if (aux->valor->CentroRef == v){
             return true;
         }
         aux = aux->siguiente;
     }
-    //cout << endl;
     return false;
 }
 
@@ -302,13 +260,11 @@ int ListaRegistroCentros::buscarCentroRefRecuperarID(string v)
     aux = cabeza;
     while(aux)
     {
-        //cout << aux->valor.IdCentro << "-> ";
         if (aux->valor->CentroRef == v){
             return aux->valor->IdCentro;
         }
         aux = aux->siguiente;
     }
-    //cout << endl;
 }
 
 Estadistica* ListaRegistroCentros::buscarCentroRefRecuperarEstadistica(int v)
@@ -317,13 +273,11 @@ Estadistica* ListaRegistroCentros::buscarCentroRefRecuperarEstadistica(int v)
     aux = cabeza;
     while(aux)
     {
-        //cout << aux->valor.IdCentro << "-> ";
         if (aux->valor->IdCentro == v){
             return aux->valor->estadistica;
         }
         aux = aux->siguiente;
     }
-    //cout << endl;
 }
 
 
@@ -341,9 +295,7 @@ int ListaRegistroCentros::contarElementosLista()
 }
 
 
-
-
-// ----------------------------------------------- LISTA Cajas -----------------------------------------------
+//----------------------------------------------Lista-de-Cajas---------------------------------------------------//
 
 Lista::~Lista()
 {
@@ -357,7 +309,6 @@ Lista::~Lista()
     actual = NULL;
 }
 
-
 void Lista::insertarNodo(Caja v)
 {
     pnodocaja aux;
@@ -365,11 +316,9 @@ void Lista::insertarNodo(Caja v)
     {
         cabeza = new Nodo(v, NULL);
         final=cabeza;
-        //cout << "VOUY A INTENTARLOOOOOOO aunque este vacias" << endl;
     }
     else
     {
-        //cout << "VOUY A INTENTARLOOOOOOO" << endl;
         aux= new Nodo(v,NULL);
         final->siguiente=aux;
         final=aux;
@@ -423,15 +372,16 @@ void Lista::borrarNodoPorCajaID(string v)
 }
 }
 
-
 bool Lista::listaVacia()
 {
     return cabeza == NULL;
 }
+
 void Lista::esCabeza()
 {
     actual = cabeza;
 }
+
 void Lista::esFinal()
 {
     esCabeza();
@@ -440,22 +390,22 @@ void Lista::esFinal()
             esSiguiente();
 }
 
-
 void Lista::esSiguiente()
 {
     if(actual) actual = actual->siguiente;
 }
+
 bool Lista::esActual()
 {
     return actual != NULL;
 }
+
 Caja Lista::valorActual()
 {
     return actual->valor;
 }
 
-
-void Lista::recorrerLista() //CAmbiar nombre mas descriptivo, haciendo print de  los id.
+void Lista::recorrerLista() //TO-DO: Cambiar nombre mas descriptivo, haciendo print de  los id.
 {
     pnodocaja aux;
     aux = cabeza;
@@ -466,7 +416,6 @@ void Lista::recorrerLista() //CAmbiar nombre mas descriptivo, haciendo print de 
     }
     cout << endl;
 }
-
 
 Caja Lista::recorrerListaBuscandoCaja(string idCaja)
 {
@@ -483,7 +432,6 @@ Caja Lista::recorrerListaBuscandoCaja(string idCaja)
     cajaNoEncontrada.Id = "CajaNoEncontrada";
     return cajaNoEncontrada;
 }
-
 
 // Devolver pila de cajas lista para impresion Pila *pilaDeCajas = new Pila();
 Pila * Lista::recorrerListaCajas(Pila *pilaDeCajas)
@@ -514,9 +462,7 @@ int Lista::numeroDeElementos()
     return contar;
 }
 
-
-
-// ----------------------------------------------- Arbol de CentrosClasificación -----------------------------------------------
+//----------------------------------------------Arbol Centros-De-Clasificación---------------------------------------------------//
 //Destructor
 ArbolABB::~ArbolABB()
         {
@@ -670,18 +616,18 @@ void ArbolABB::BorrarPorId(const int dat)
                // Anulamos el puntero que le hace referencia
                if(padre->derecho == actual) {
                     padre->derecho = NULL;
-                    cout << "DEBUG 1" << endl;
+                    //cout << "DEBUG 1" << endl;
                 }
 
                else if(padre->izquierdo == actual){
                     padre->izquierdo = NULL;
-                cout << "DEBUG 2" << endl;
+                //cout << "DEBUG 2" << endl;
             }
             }
             else raiz=NULL;
 
             delete actual; // Borrar el nodo
-                cout << "DEBUG 3" << endl;
+                //cout << "DEBUG 3" << endl;
             actual = NULL;
             return;
          }
@@ -793,7 +739,6 @@ bool ArbolABB::BuscarPorId(const int dat)
    return false; // No está en árbol
 }
 
-
 // Buscar por id en el arbol y devolver el centro de clasificación.
 CentroClasificacion * ArbolABB::BuscarPorIdRecuperarCC(const int dat)
 {
@@ -806,7 +751,6 @@ CentroClasificacion * ArbolABB::BuscarPorIdRecuperarCC(const int dat)
    }
    // No está en árbol
 }
-
 
 
 // Calcular la altura del nodo que contiene el int dat
@@ -874,7 +818,8 @@ void Mostrar(int &d)
    cout << d << ",";
 }
 
-// Funciones PILA:
+
+//----------------------------------------------PILA---------------------------------------------------//
 
 //Destructor de la Pila
 Pila::~Pila()
@@ -940,18 +885,6 @@ int Pila::contarElementosPila(){
     return contador;
 }
 
-/* Opción recursiva: (Al crearlo en la memoria estática, parece optimo usar iterativa).
-int contarElementosPila(Pila pila){
-    if (pila.vacia()){
-        return 0;
-    }
-    else {
-        pila.desapilar();
-        return 1 + contarElementosPila(pila);
-    }
-}
-*/
-
 Pila *copiarPila(Pila *pilaOriginal) {
     Pila *pilaCopia = new Pila();
     Pila *pilaTemporal = new Pila();
@@ -991,9 +924,8 @@ Pila* invertirPila(Pila* pilaOriginal) {
 }
 
 
-//-------------------------------------------------------------------
 
-
+//----------------------------------------------FUNCIONES y Variables---------------------------------------------------//
 
 
 string centrosPosibles[] = {  "Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon", "Torrejon",
@@ -1047,15 +979,16 @@ string randomCentrosNoRegistrado (ListaRegistroCentros *listaCentros){
 
 int generarNumeroRandom() {
     // Generar un número aleatorio en el rango [0, 999]
-    int numeroRandom = rand() % 1000;
+    //int numeroRandom = rand() % 1000;
+    // Genera un número entre 100 y 999
+    int numeroRandom = rand() % 900 + 100;
     return numeroRandom;
 }
 
 int generarNumeroRandomNoRegistrado(ListaRegistroCentros *listaCentros) {
-    // Generar un número aleatorio en el rango [0, 999]
     int numeroRandom;
     do {
-        numeroRandom = rand() % 1000;
+        numeroRandom = rand() % 900 + 100;
     } while (listaCentros->buscarID(numeroRandom));
     return numeroRandom;
 }
@@ -1098,7 +1031,8 @@ string generadorIDCaja(){
     string id="";
     string localizaciones[] = { "MAR", "GRE", "LIB"};
     id = localizaciones[rand() % 3];
-    int idnumber = rand() % 10000;
+    //int idnumber = rand() % 10000;
+    int idnumber = rand() % 900 + 100;
     id = id + to_string(idnumber);
 
     string origenes[] = { "Daganzo", "Meco", "Loeches","Torrejon"};
@@ -1110,17 +1044,10 @@ int generarNumeroAleatorio() {
     return rand() % 31 + 1; // Genera un número entre 1 y 31
 }
 
-// Función generadora de centros y asocación al arbol.
 
+// Función generadora de centros y asocación al arbol.
 void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros){
     for (int i=0; i< numSimulaciones; i++){
-
-        //BUG EN CASO DE QUE SE AÑADAN MANUALMENTE CENTROS: SOlucionado comentado el if y modificando funcion randomCentrosNoRegistrado;
-        //if (  (sizeof(centrosPosibles) /sizeof(centrosPosibles[0]))  > (listaCentros->contarElementosLista()) ){
-            //cout << " hay centro disponibles" << endl;
-            //cout << (listaCentros->contarElementosLista()) << endl;
-            //cout << randomCentros() << endl;
-            //RegistroCentros centroRegistro;
             RegistroCentros *centroRegistro= new  RegistroCentros();
             string centroReferencia=randomCentrosNoRegistrado (listaCentros);
             int centroReferenciaId=generarNumeroRandomNoRegistrado (listaCentros);
@@ -1129,31 +1056,17 @@ void simulacionCentroDeControl(int numSimulaciones, ListaRegistroCentros *listaC
             centroRegistro->estadistica= new Estadistica;
             listaCentros->insertarNodo(centroRegistro);
 
-            // antes de borrar debug
-            /*
-            CentroClasificacion centro;
-            centro.CentroRef=centroReferencia;
-            centro.IdCentro=centroReferenciaId;
-            arbolDeCentros->Insertar(centro);
-            */
-
-            //HECHO TRANSFORMAR EL ARBOL O NO PARA QUE LOS NODOS SEAN PUNTEROS A CENTROS DE CLASFICACION;
+            //HECHO: TRANSFORMAR EL ARBOL O NO PARA QUE LOS NODOS SEAN PUNTEROS A CENTROS DE CLASFICACION;
             CentroClasificacion *centro= new CentroClasificacion();
             centro->CentroRef=centroReferencia;
             centro->IdCentro=centroReferenciaId;
             arbolDeCentros->Insertar(centro);
-
-        //}
-        //else {
-         //   cout << " NO hay centro disponibles" << endl;
-        //}
     }
     cout << "Arbol vacio creado:\n" << endl;
 }
 
-//OPCION 1 menu
+//OPCION 1 menu:
 void crearCCmanual(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros){
-
     int centroReferenciaId;
     string centroReferencia;
     do {
@@ -1167,10 +1080,7 @@ void crearCCmanual(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros)
         if (listaCentros->buscarID(centroReferenciaId) ) {
             cout << "El numero ingresado ya esta registrado. Intenta de nuevo." << endl;
         }
-
     } while (listaCentros->buscarID(centroReferenciaId)  || centroReferenciaId < 100 || centroReferenciaId > 999  );
-
-
     do {
         cin.ignore();
         cout << "Por favor, ingrese un nombre de centro: ";
@@ -1194,13 +1104,12 @@ void crearCCmanual(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros)
 
 }
 
-
-//OPCION 2 menu
-
+//OPCION 2 menu:
 void borrarCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
     int centroReferenciaId;
     cout << "Listado de intentificadores de CC disponibles: ";
     arbolDeCentros->InOrden(Mostrar);
+    cout << endl;
 
     cout << "Por favor, ingrese el numero de indentificacion del centro: ";
     cin >> centroReferenciaId;
@@ -1218,7 +1127,7 @@ void borrarCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
 
 }
 
-//OPCION 3 menu
+//OPCION 3 menu:
 void mostrarDatosCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
 
     int centroReferenciaId;
@@ -1233,24 +1142,17 @@ void mostrarDatosCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros
         }
     if (listaCentros->buscarID(centroReferenciaId) ) {
             cout << "Centro encontrado." << endl;
-            //listaCentros->borrarNodoPorRegistroID(centroReferenciaId);
-            //arbolDeCentros->BorrarPorId(centroReferenciaId);
             cout << "ID Central: " << arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->IdCentro << endl;
             cout  << "Localidad: " << arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->CentroRef << endl;
             cout  << "Num cajas: " << arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->listaDeCajas.numeroDeElementos() << endl;
-            //arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->listaDeCajas.recorrerLista()
 
             Pila *pilaDeCajas = new Pila();
             pilaDeCajas=arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->listaDeCajas.recorrerListaCajas(pilaDeCajas);
             printDatosPilaCajas(pilaDeCajas);
-
-            //pilaDeCajas->apilar(arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->listaDeCajas.recorrerListaCajas());
-            //printDatosPilaCajas(pilaDeCajas);
-            //arbolDeCentros->BuscarPorIdRecuperarCC(centroReferenciaId)->listaDeCajas.
         }
 }
 
-//OPCION 4 menu
+//OPCION 4 menu:
 void buscarCajaPorID(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
     string idCaja;
     cin.ignore();
@@ -1272,8 +1174,7 @@ void buscarCajaPorID(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentro
     }
 }
 
-
-//OPCION 5 menu
+//OPCION 5 menu:
 void buscarCajaPorIDyBorrar(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
     string idCaja;
     cin.ignore();
@@ -1292,15 +1193,12 @@ void buscarCajaPorIDyBorrar(ListaRegistroCentros *listaCentros, ArbolABB *arbolD
         cout << "Fecha de recogida: " << caja.FechaRecogida << endl;
         cout << "ID de la caja: " << caja.Id << endl;
         cout << "ID del centro: " <<caja.IdCentro << endl;
-        //arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro).listaDeCajas->borrarNodoPorCajaID(caja.Id);
         CentroClasificacion* centroEncontrado = arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro);
         centroEncontrado->listaDeCajas.borrarNodoPorCajaID(caja.Id);
-        //arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro)->listaDeCajas->borrarNodoPorCajaID(caja.Id);
     }
 }
 
-
-//OPCION 6
+//OPCION 6 menu:
 void buscarCajaPorIDyMoverlaCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros) {
     int centroReferenciaId;
     string idCaja;
@@ -1309,7 +1207,6 @@ void buscarCajaPorIDyMoverlaCC(ListaRegistroCentros *listaCentros, ArbolABB *arb
     cout << "\n";
     cout << "Introduzca ID del Centro de Clasificacion al que desea mover la caja: ";
     cin >> centroReferenciaId;
-
     if (listaCentros->buscarID(centroReferenciaId) ) {
             cout << "El numero ingresado  esta registrado." << endl;
             cout << "Introduzca ID de la caja que desea mover: ";
@@ -1321,17 +1218,12 @@ void buscarCajaPorIDyMoverlaCC(ListaRegistroCentros *listaCentros, ArbolABB *arb
             cout << "La caja no fue encontrar" << endl;
         }
         else{
-            cout << "La caja fue encontrada y se movera desde el centro" << caja.IdCentro  << "al" <<centroReferenciaId <<endl;
+            cout << "La caja fue encontrada y se movera desde el  centro: " << caja.IdCentro  << " al centro: " <<centroReferenciaId <<endl;
             CentroClasificacion* centroEncontrado = arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro);
             centroEncontrado->listaDeCajas.borrarNodoPorCajaID(caja.Id);
             caja.IdCentro=centroReferenciaId;
             caja.CentroRef=listaCentros->buscarIDRecuperarCentroRef(centroReferenciaId);
             arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro)->listaDeCajas.insertarNodo(caja);
-
-            //arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro).listaDeCajas->borrarNodoPorCajaID(caja.Id);
-            //CentroClasificacion* centroEncontrado = arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro);
-            //centroEncontrado->listaDeCajas.borrarNodoPorCajaID(caja.Id);
-            //arbolDeCentros->BuscarPorIdRecuperarCC(caja.IdCentro)->listaDeCajas->borrarNodoPorCajaID(caja.Id);
         }
     }
     else{
@@ -1339,19 +1231,11 @@ void buscarCajaPorIDyMoverlaCC(ListaRegistroCentros *listaCentros, ArbolABB *arb
     }
 }
 
-//OPCION 7 TO_DO
+//OPCION 7:
+// Sobre main.
 
-
-
-//OPCION 8 en main.
-
-
-
-//void  estadoCentrosArbol(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros){
-    //listaCentros.recorrerLista
-    //arbolDeCentros->PreOrden(Mostrar);
-
-//}
+//OPCION 8:
+// Sobre main.
 
 void simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas ){
     for (int i=0; i< numSimulaciones; i++){
@@ -1364,18 +1248,9 @@ void simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, List
         nuevaCaja.FechaConsumo=fechaCaducidad(nuevaCaja.Contenido);
         nuevaCaja.Id=generadorIDCaja();
         nuevaCaja.FechaRecogida=generarNumeroAleatorio();
-
         //cout << nuevaCaja.CentroRef << " " << nuevaCaja.Contenido << " " << nuevaCaja.FechaConsumo << " " << nuevaCaja.FechaRecogida << " " << nuevaCaja.Id << " " << nuevaCaja.IdCentro << endl;
         pilaDeCajas->apilar(nuevaCaja);
     }
-    //listaCentros->buscarIDRecuperarCentroRef
-    //buscarIDRecuperarCentroRef
-    //while (!listaCentros->buscarCentro(nuevaCaja.CentroRef)); && arbolDeCentros->BuscarPorId(nuevaCaja.CentroRef)
-
-    //listaCentros->buscarID(nuevaCaja.CentroRef) && arbolDeCentros.BuscarPorId(nuevaCaja.CentroRef);
-    //listaCentros->buscarID(nuevaCaja.CentroRef);
-    //arbolDeCentros->
-
 }
 
 void actualizareEstadisitcas(Caja caja, RegistroCentros * centro, Estadistica *estadisticaTotal){
@@ -1512,50 +1387,11 @@ void actualizareEstadisitcas(Caja caja, RegistroCentros * centro, Estadistica *e
     }
  }
 
-
 void repartirCajas(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros,Pila* pilaDeCajas, Estadistica *estadisticaTotal) {
-    //cout << listaCentros->valorActual().estadistica.aceite << endl;
-
     while (!pilaDeCajas->vacia()){
-
-        //arbolDeCentros->BuscarPorIdRecuperarCC();
-        //cout << pilaDeCajas->mostrarCima().IdCentro << endl;
-
-        //CentroClasificacion centro2=arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro);
-        //cout << arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro)->listaDeCajas.numeroDeElementos() << endl;
-
-        //listaCentros->buscarCentroRefRecuperarEstadistica(pilaDeCajas->mostrarCima().IdCentro).greciaDestino="hola";
-
-        //WIP
-        //Estadistica estadistica = listaCentros->buscarCentroRefRecuperarEstadistica(pilaDeCajas->mostrarCima().IdCentro);
-        //estadistica.greciaDestino=10;
-        //estadistica.aceite=20;
-
-        //listaCentros->buscarCentroRefRecuperarEstadistica(pilaDeCajas->mostrarCima().IdCentro)->aceite=1;
-
-        //WIP   ListaRegistroCentros *listaCentros= new ListaRegistroCentros();
-
         Caja caja= pilaDeCajas->mostrarCima();
-        //listaCentros->
-
-        //actualizareEstadisitcas(caja,listaCentros->buscarCentroRefRecuperarEstadistica(pilaDeCajas->mostrarCima().IdCentro));
-
-        //actualizareEstadisitcas(caja,listaCentros->buscarIDRecuperarCentroRefCompleto(caja.IdCentro));
-        //cout << listaCentros->buscarIDRecuperarCentroRefCompleto(caja.IdCentro)->estadistica->aceite;
-        //cout << listaCentros->buscarIDRecuperarCentroRefCompleto(caja.IdCentro)->estadistica->aceite;
-        //estadisticaTotal
         actualizareEstadisitcas(caja,listaCentros->buscarIDRecuperarCentroRefCompleto(caja.IdCentro),estadisticaTotal);
-
-
-
-
-
         arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro)->listaDeCajas.insertarNodo(pilaDeCajas->desapilar());
-        //actualizareEstadisitcas(caja,listaCentros->buscarCentroRefRecuperarEstadistica(caja.IdCentro));
-        //WIP
-
-        //WIP
-        //cout << arbolDeCentros->BuscarPorIdRecuperarCC( pilaDeCajas->mostrarCima().IdCentro)->listaDeCajas.numeroDeElementos() << endl;
     }
 }
 
@@ -1569,16 +1405,14 @@ void printMenu(int &opcion){
     cout << "6- Llevar una caja concreta de un CC a otro." << endl;
     cout << "7- Mostrar una estadistica de los CC de la ONG." << endl;
     cout << "8- Continuar con la distribucion de cajas." << endl;
+    cout << "10- Imprimir centros y cajas alojadas." << endl;
     cout << "0) Salir del programa." << endl;
 
     cout << "Seleccione una opcion del menu:"  << endl;
     cin >> opcion;
-
 }
 
 void printDatosPilaCajas(Pila* pilaDeCajas){
-
-
 cout << "--------------------------------------------------------------------------" << endl;
 cout << "|" << setw(10) << "ID Caja |"
      << setw(16) << "Centro_ref |"

@@ -4,26 +4,30 @@
 using namespace std;
 
 int main(){
+    //Semilla para random data.
     srand(time(NULL));
+    //Opcion por defecto al menu.
     int opcion=0;
-    //Creamos una lista de tipo RegistroDeCentros.
-    //ListaRegistroCentros *lista= new ListaRegistroCentros();
+    //Se crea una lista que registra los nodos (Estos nodos no tienen las cajas, solo la estadística, id y nombre del centro).
     ListaRegistroCentros *listaCentros= new ListaRegistroCentros();
+    // Se crea un arbol donde se registran los nodos. Estos nodos sí tienen las cajas.
     ArbolABB *arbolDeCentros= new ArbolABB();
+    // Se crea una pila para acumular las cajas que se crean.
     Pila *pilaDeCajas = new Pila();
+    // Se crea una estructura estadistica total, que guarda el acumulado de las estaditicas, cada centro tiene su estructura particular.
     Estadistica *estadisticaTotal=new Estadistica();
 
     cout << "Creado el ABB con los siguientes 10 nodos:\n" << endl;
+    // Creación de Centros, y registro de los mismo en la lista de centros y arbol de centros.
     simulacionCentroDeControl(N1, listaCentros, arbolDeCentros);
-
+    // impresion de centros, se utiliza la lista de centros registrados para sacar los id y recorrer el arbol.
     listaCentros->imprimirDatosMedianteRegistoDeLista(arbolDeCentros);
-    //estadoCentrosArbol(arbolDeCentros);
-
-
 
     cout << "Creando las siguientes cajas nuevas:\n" << endl;
+    // Creacion de cajas, las lista de centros se utiliza para obtener un id de centro, con el arbol verificamos  que existe el centro con el ID, y la apilamos en una pila, a la espera de ser repartidas.
     simulacionCreacionCajas(N2,arbolDeCentros,listaCentros,pilaDeCajas);
 
+    // Creamos una pila en la que copiar, se utiliza para la impresion, debe ser invertida si queremos conservar el orden de cración.
     Pila *pilaDeCajasCopia = copiarPila(pilaDeCajas);
     pilaDeCajas = invertirPila(pilaDeCajas);
     pilaDeCajasCopia = invertirPila(pilaDeCajasCopia);
@@ -33,16 +37,22 @@ int main(){
     cin.ignore();  // Espera a que el usuario presione Enter
 
     cout << "Cajas repartidas. Estado del arbol:\n" << endl;
-
+    // Las cajas son repartidas desde la pila, la lista de centros se utiliza para actualizar la estadistica propia de cada centro, el arbol para insertar las cajas en la lista de los nodos. Estadistica todal registra el total de cajas generadas independientemente del centro.
     repartirCajas(arbolDeCentros,listaCentros, pilaDeCajas,estadisticaTotal);
 
+    // Imprimimos el estado del arbol con las cajas que han recogido. La lista de centros se utiliza para recorrer el arbol. Podria optarse por hacer un recorrido inorden,preorden o postorden, recoger los id en otra estructura, y recorrer el arbol, pero teniendo un listado, no tendria mucho sentido.
     listaCentros->imprimirDatosMedianteRegistoDeLista(arbolDeCentros);
 
     cout << "Listado de intentificadores de CC creados: ";
     arbolDeCentros->InOrden(Mostrar);
     cout << "\n" << endl;
 
+    cout << "**************************************************" << endl;
+    cout << "*             BIENVENIDO AL SERVICIO             *" << endl;
+    cout << "*               DE AYUDA HUMANITARIA             *" << endl;
+    cout << "**************************************************" << endl;
 
+    //Entramos en fase menu. Opcion 10 no se muestra al usuario, se deja para debug.
     do {
         printMenu(opcion);
         switch (opcion) {
@@ -87,9 +97,9 @@ int main(){
                     repartirCajas(arbolDeCentros,listaCentros, pilaDeCajas,estadisticaTotal );
                     break;
             case 10:
-                    cout << "Opcion10 for Debug" << endl;
+                    cout << "Opcion10" << endl;
                     listaCentros->imprimirDatosMedianteRegistoDeLista(arbolDeCentros);
-                    cout << listaCentros->randomIDCentro() << endl;
+                    //cout << listaCentros->randomIDCentro() << endl;
                     break;
             case 0:
                     cout << "Nos vemos. ;) " << endl ;
@@ -101,208 +111,7 @@ int main(){
         } while(opcion!=0);
 
 
-    cout << "FIN:\n" << endl;
+    cout << "Gracias por usar la simulación:\n" << endl;
 
-
-    /*
-
-
-    //DEBUG
-
-    //repartir cajas
-    //repartirCajas(arbolDeCentros,listaCentros, pilaDeCajas );
-    int a=pilaDeCajas->mostrarCima().IdCentro;
-    Caja nuevaCaja1;
-    nuevaCaja1.CentroRef="hola";
-    nuevaCaja1.Contenido="patatas";
-    nuevaCaja1.FechaConsumo="mañana";
-    nuevaCaja1.FechaRecogida=2;
-    nuevaCaja1.Id="asdasd";
-    nuevaCaja1.IdCentro=111;
-
-    Caja nuevaCaja2;
-    nuevaCaja2.CentroRef="adios";
-    nuevaCaja2.Contenido="tomates";
-    nuevaCaja2.FechaConsumo="ayer";
-    nuevaCaja2.FechaRecogida=3;
-    nuevaCaja2.Id="tomya";
-    nuevaCaja2.IdCentro=222;
-
-    CentroClasificacion centro;
-    centro.CentroRef="probandoCentro";
-    centro.IdCentro=111;
-    centro.listaDeCajas.insertarNodo(nuevaCaja1);
-    centro.listaDeCajas.insertarNodo(nuevaCaja2);
-    centro.listaDeCajas.recorrerLista();
-    arbolDeCentros->Insertar(centro);
-    arbolDeCentros->PreOrden(Mostrar);
-
-    CentroClasificacion centro2=arbolDeCentros->BuscarPorIdRecuperarCC(111);
-    //cout << centro2.CentroRef << endl;
-    //cout << centro2.IdCentro << endl;
-    //cout << centro2.listaDeCajas.numeroDeElementos() << endl;
-    centro2.listaDeCajas.recorrerLista();
-
-    cout << "mi ultimo debug" << endl;
-
-    arbolDeCentros->BuscarPorIdRecuperarCC(111).listaDeCajas.recorrerLista();
-    cout << arbolDeCentros->BuscarPorIdRecuperarCC(111).listaDeCajas.numeroDeElementos()  << endl;
-
-    //DEBUG
-    //arbolDeCentros->BuscarPorIdRecuperarCC(a).listaDeCajas.insertarNodo(pilaDeCajas->desapilar());
-
-/*
-    arbolDeCentros->BuscarPorIdRecuperarCC(a).listaDeCajas.recorrerLista();
-    if (arbolDeCentros->BuscarPorIdRecuperarCC(a).listaDeCajas.listaVacia()){
-        cout << "la lista esta como uno solar" << endl;
-    }
-    cout << a <<endl;
-*/
-    //listaCentros->imprimirDatosMedianteRegistoDeLista(arbolDeCentros);
-
-      /*
-    CentroClasificacion centro1;
-    centro1.CentroRef="mi primer centro";
-    centro1.IdCentro=10;
-    CentroClasificacion centro2;
-    centro2.CentroRef="mi segundo centro";
-    centro2.IdCentro=12;
-
-    CentroClasificacion centro3;
-    centro3.CentroRef="mi tercer centro";
-    centro3.IdCentro=13;
-
-    CentroClasificacion centro4;
-    centro4.CentroRef="mi cuarto centro";
-    centro4.IdCentro=9;
-
-    ArbolABB ArbolInt;
-
-    ArbolInt.Insertar(centro1);
-    ArbolInt.Insertar(centro2);
-    ArbolInt.Insertar(centro3);
-    ArbolInt.Insertar(centro4);
-
-      // Veamos algunos parámetros
-   cout << "N nodos: " << ArbolInt.NumeroNodos() << endl;
-   cout << "Altura de 10 " << ArbolInt.Altura(centro1) << endl;
-   cout << "Altura de  12 " << ArbolInt.Altura(centro2) << endl;
-   cout << "Altura de  13 " << ArbolInt.Altura(centro3) << endl;
-   cout << "Altura de  9 " << ArbolInt.Altura(centro4) << endl;
-   cout << "Altura de arbol " << ArbolInt.AlturaArbol() << endl;
-
-   cout << "Raiz " << ArbolInt.VerRaiz().CentroRef << endl;
-   cout << "Raiz " << ArbolInt.VerRaiz().IdCentro << endl;
-   //cout << "Raiz " << ArbolInt.VerRaiz().listaDeCajas.actual.Nodo << endl;
-   cout << endl;
-
-
-   // Mostrar el árbol en tres ordenes distintos:
-   cout << "InOrden: ";
-   ArbolInt.InOrden(Mostrar);
-   cout << endl;
-   cout << "PreOrden: ";
-   ArbolInt.PreOrden(Mostrar);
-   cout << endl;
-   cout << "PostOrden: ";
-   ArbolInt.PostOrden(Mostrar);
-   cout << endl;
-
-   if (ArbolInt.BuscarPorId(13)) {
-        cout << "esta el nodo de id 13" << endl;
-   }
-
-    if (ArbolInt.BuscarPorId(15)) {
-        cout << "esta el nodo de id 15" << endl;
-   }
-   else {
-        cout << "NO esta el nodo de id 15" << endl;
-   }
-
-
-    // Borraremos algunos elementos:
-   cout << "N nodos: " << ArbolInt.NumeroNodos() << endl;
-   ArbolInt.Borrar(centro4);
-   cout << "Borrar   4: ";
-   ArbolInt.InOrden(Mostrar);
-   cout << endl;
-   ArbolInt.Borrar(centro1);
-   cout << "Borrar   1: ";
-   ArbolInt.InOrden(Mostrar);
-    cout << endl;
-
-    cout << "Raiz " << ArbolInt.VerRaiz().IdCentro << endl;
-
-
-    RegistroCentros prueba;
-    prueba.CentroRef="holamundo";
-    prueba.IdCentro=111;
-
-    RegistroCentros prueba2;
-    prueba2.CentroRef="holamundo2";
-    prueba2.IdCentro=222;
-
-    ListaRegistroCentros *lista= new ListaRegistroCentros();
-    lista->insertarNodo(prueba);
-    lista->insertarNodo(prueba2);
-    lista->recorrerLista();
-    cout << "Lista de elementos:" << endl;
-    lista->esCabeza();
-
-    while(lista->esActual())
-    {
-        //cout << lista.valorActual() << endl;
-        cout << lista->valorActual().CentroRef << lista->valorActual().IdCentro << endl;
-        lista->esSiguiente();
-    }
-        lista->esCabeza();
-        cout << "Primero: " << lista->valorActual().CentroRef << lista->valorActual().IdCentro << endl;
-        lista->esFinal();
-        cout << "Ultimo: " << lista->valorActual().CentroRef << lista->valorActual().IdCentro << endl;
-        lista->borrarNodoPorRegistroID(111);
-        //lista.borrarNodo(prueba);
-        //lista.borrarNodo(15);
-        //lista.borrarNodo(45);
-        //lista.borrarNodo(30);
-        //lista.borrarNodo(40);
-        lista->recorrerLista();
-
-    */
-
-    /*
-    RegistroCentros prueba;
-    prueba.CentroRef="holamundo";
-    prueba.IdCentro=111;
-
-    RegistroCentros prueba2;
-    prueba2.CentroRef="holamundo2";
-    prueba2.IdCentro=222;
-
-    ListaRegistroCentros lista;
-    lista.insertarNodo(prueba);
-    lista.insertarNodo(prueba2);
-    lista.recorrerLista();
-    cout << "Lista de elementos:" << endl;
-    lista.esCabeza();
-
-    while(lista.esActual())
-    {
-        //cout << lista.valorActual() << endl;
-        cout << lista.valorActual().CentroRef << lista.valorActual().IdCentro << endl;
-        lista.esSiguiente();
-    }
-        lista.esCabeza();
-        cout << "Primero: " << lista.valorActual().CentroRef << lista.valorActual().IdCentro << endl;
-        lista.esFinal();
-        cout << "Ultimo: " << lista.valorActual().CentroRef << lista.valorActual().IdCentro << endl;
-        lista.borrarNodoPorRegistroID(111);
-        //lista.borrarNodo(prueba);
-        //lista.borrarNodo(15);
-        //lista.borrarNodo(45);
-        //lista.borrarNodo(30);
-        //lista.borrarNodo(40);
-        lista.recorrerLista();
-
-    */
     return 0;
 }
