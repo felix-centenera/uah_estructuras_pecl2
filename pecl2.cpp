@@ -1579,14 +1579,14 @@ void printMenu(int &opcion){
 void printDatosPilaCajas(Pila* pilaDeCajas){
 
 
-cout << "----------------------------------------------------------------------" << endl;
+cout << "--------------------------------------------------------------------------" << endl;
 cout << "|" << setw(10) << "ID Caja |"
-     << setw(10) << "Centro_ref |"
+     << setw(16) << "Centro_ref |"
      << setw(12) << "ID centro |"
      << setw(16) << "Contenido |"
      << setw(14) << "Fecha cons |"
      << setw(4) << "Dia |" << endl;
-cout << "----------------------------------------------------------------------" << endl;
+cout << "--------------------------------------------------------------------------" << endl;
 int numCajas=pilaDeCajas->contarElementosPila();
 for (int i=0; i < numCajas; i++) {
     if (pilaDeCajas->vacia()) {
@@ -1599,7 +1599,7 @@ for (int i=0; i < numCajas; i++) {
     }
     else {
         cout << "|" << setw(10) << pilaDeCajas->mostrarCima().Id + "|"
-        << setw(10) << pilaDeCajas->mostrarCima().CentroRef
+        << setw(14) << pilaDeCajas->mostrarCima().CentroRef
         << setw(2) << "|"
         << setw(10) << pilaDeCajas->mostrarCima().IdCentro
         << setw(2) << "|"
@@ -1610,7 +1610,7 @@ for (int i=0; i < numCajas; i++) {
     }
     pilaDeCajas->desapilar();
 }
-cout << "----------------------------------------------------------------------" << endl;
+cout << "--------------------------------------------------------------------------" << endl;
 cout << "\n" ;
 cout << "\n" ;
 }

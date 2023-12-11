@@ -6,12 +6,12 @@
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
-#define N1 21 //Numero de centrales de clasificación.
-#define N2 100 // Numero de cajas aleatorias
+#define N1 10 //Numero de centrales de clasificación.
+#define N2 30 // Numero de cajas aleatorias
 
 using namespace std;
 
-// ---------------------------------------------ESTRUCTURAS.---------------------------------------------
+// ---------------------------------------------ESTRUCTURAS---------------------------------------------
 // -----------------------------------------------------------------------------------------------------
 
 // STRUCT Caja:
