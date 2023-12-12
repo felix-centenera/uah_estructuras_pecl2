@@ -288,6 +288,7 @@ void buscarCajaPorIDyBorrar(ListaRegistroCentros *listaCentros, ArbolABB *arbolD
 void buscarCajaPorIDyMoverlaCC(ListaRegistroCentros *listaCentros, ArbolABB *arbolDeCentros);
 void actualizareEstadisitcas(Caja caja, RegistroCentros * centro,Estadistica *estadisticaTotal);
 void printEstadisticas(Estadistica* estadistica);
+void anadirCajasCentro(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros, Estadistica *estadisticaTotal);
 
 //OLD FUNCTION:
 //void actualizareEstadisitcas(Caja caja, CentroClasificacion * centroClasificacion);

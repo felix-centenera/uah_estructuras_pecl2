@@ -1255,6 +1255,37 @@ void simulacionCreacionCajas(int numSimulaciones, ArbolABB *arbolDeCentros, List
     }
 }
 
+//OPCION9 :
+void anadirCajasCentro(ArbolABB *arbolDeCentros, ListaRegistroCentros *listaCentros, Estadistica *estadisticaTotal){
+    int numeroDeCajas=0;
+    int centroReferenciaId;
+    cout << "Listado de intentificadores de CC disponibles: " << endl;
+    arbolDeCentros->InOrden(Mostrar);
+    cout << "\n";
+    cout << "Introduzca ID del Centro de Clasificacion al que desea mover la/las caja/cajas: ";
+    cin >> centroReferenciaId;
+    if (listaCentros->buscarID(centroReferenciaId) ) {
+        cout << "El numero ingresado  esta registrado." << endl;
+        cout << "Introduzca el numero de cajas que quieres generar: ";
+        cin >> numeroDeCajas;
+        for (int i=0; i< numeroDeCajas; i++){
+        Caja nuevaCaja;
+        nuevaCaja.CentroRef=listaCentros->buscarIDRecuperarCentroRef(centroReferenciaId);
+        nuevaCaja.IdCentro=centroReferenciaId;
+        nuevaCaja.Contenido=randomProductos();
+        nuevaCaja.FechaConsumo=fechaCaducidad(nuevaCaja.Contenido);
+        nuevaCaja.Id=generadorIDCaja();
+        nuevaCaja.FechaRecogida=generarNumeroAleatorio();
+        actualizareEstadisitcas(nuevaCaja,listaCentros->buscarIDRecuperarCentroRefCompleto(nuevaCaja.IdCentro),estadisticaTotal);
+        arbolDeCentros->BuscarPorIdRecuperarCC( nuevaCaja.IdCentro)->listaDeCajas.insertarNodo(nuevaCaja);
+        }
+    }
+    else {
+        cout << "El numero ingresado no esta registrado." << endl;
+    }
+}
+
+
 void actualizareEstadisitcas(Caja caja, RegistroCentros * centro, Estadistica *estadisticaTotal){
     if  (caja.Id.substr(0, 3) == "MAR"){
             //centro->estadistica->aceite=1;
@@ -1407,6 +1438,7 @@ void printMenu(int &opcion){
     cout << "6- Llevar una caja concreta de un CC a otro." << endl;
     cout << "7- Mostrar una estadistica de los CC de la ONG." << endl;
     cout << "8- Continuar con la distribucion de cajas." << endl;
+    cout << "9- Agregar cajas a un centro." << endl;
     cout << "10- Imprimir centros y cajas alojadas." << endl;
     cout << "0) Salir del programa." << endl;
 
@@ -1471,7 +1503,6 @@ void printEstadisticas(Estadistica* estadistica){
     cout << "+------------------------+----------------+\n";
     cout << "| Harina                 | " << setw(14) << estadistica->harina << " |\n";
     cout << "| Pasta                  | " << setw(14) << estadistica->pasta << " |\n";
-    cout << "| Galletas               | " << setw(14) << estadistica->galletas << " |\n";
     cout << "| Legumbres              | " << setw(14) << estadistica->legumbres << " |\n";
     cout << "| Leche                  | " << setw(14) << estadistica->leche << " |\n";
     cout << "| medicinas              | " << setw(14) << estadistica->medicinas << " |\n";

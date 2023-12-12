@@ -96,6 +96,10 @@ int main(){
                     printDatosPilaCajas(pilaDeCajasCopia);
                     repartirCajas(arbolDeCentros,listaCentros, pilaDeCajas,estadisticaTotal );
                     break;
+            case 9:
+                    cout << "Opcion9" << endl;
+                    anadirCajasCentro(arbolDeCentros,listaCentros,estadisticaTotal);
+                    break;
             case 10:
                     cout << "Opcion10" << endl;
                     listaCentros->imprimirDatosMedianteRegistoDeLista(arbolDeCentros);
